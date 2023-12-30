@@ -7,7 +7,7 @@ import Footer from '../(componente)/Footer';
 
 
 
-function page() {
+function Page() {
     const [user, setUser] = useState(""); 
     const [allUser, setAllUser] = useState([])
 
@@ -56,4 +56,4 @@ function page() {
     )
 }
 
-export default page
+export default Page

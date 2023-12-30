@@ -5,6 +5,7 @@ import { TiHeartOutline } from "react-icons/ti";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { TfiLocationArrow } from "react-icons/tfi";
 import { FiBookmark } from "react-icons/fi";
+import Image from 'next/image';
 
 
 
@@ -14,13 +15,13 @@ function Post({username, caption, likes , userPhoto , postUrl}) {
     <div className="post mt-10 w-full min-h-[50vh]">
         <div className="title px-2 flex items-center gap-2">
           <div className="w-[8vw] h-[8vw] rounded-full overflow-hidden">
-            <img src={userPhoto} alt="" className='object-cover'/>
+            <Image width='70' height='70' src={userPhoto} alt="img" className='object-cover h-full w-full'/>
           </div>
           <h4 className="text-sm">{username}</h4>
           <h6 className="text-xs opacity-30">1d</h6>
         </div>
         <div className="w-full h-96 mt-4 overflow-hidden">
-          <img src={postUrl} alt="" className='object-cover w-full h-full'/>
+          <Image width='200' height='200' src={postUrl} alt="img" className='object-cover w-full h-full'/>
         </div>
         <div className="options w-full px-2 flex justify-between items-center text-[1.4rem]">
           <div className="flex gap-3 mt-2">

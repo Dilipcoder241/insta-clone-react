@@ -6,6 +6,7 @@ import Footer from '../../(componente)/Footer';
 import { RiMenu3Line } from "react-icons/ri";
 import { RiAddBoxLine } from "react-icons/ri";
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 
@@ -48,7 +49,7 @@ function page({params}) {
       dataget();
       getAllImages();
       getImage();
-    }, [])
+    }, [userphoto])
     
     
     
@@ -64,7 +65,7 @@ function page({params}) {
       </div>
       <div className="flex justify-between items-center pl-6 pr-[12vw] mt-8">
         <div className="w-[19vw] h-[19vw] rounded-full overflow-hidden">
-          <img src={userphoto} alt="" className='h-fill w-full object-cover'/>
+          <Image width='70' height='70' src={userphoto} alt="" className='h-fill w-full object-cover'/>
         </div>
         <div className="stats flex gap-5 items-center justify-between">
           <div className="flex flex-col items-center justify-center">

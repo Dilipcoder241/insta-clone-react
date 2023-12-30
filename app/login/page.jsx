@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -35,7 +36,7 @@ function Page() {
   return (
     <div className="w-full min-h-screen bg-zinc-900 text-white py-5 flex flex-col items-center justify-center">
     <div className="flex flex-col items-center gap-5 px-4">
-      <img className="w-1/2" src="/logo.png" alt=""/>
+      <Image width='70' height='70' className="w-1/2" src="/logo.png" alt=""/>
       <form className="w-full" onSubmit={handleSubmit}>
         <input className="px-3 mt-2 py-2 border-2 border-zinc-800 rounded-md block w-full bg-zinc-900" type="text" placeholder="username" name="username" onChange={(e)=>{setUsername(e.target.value)}}/>
         <input className="px-3 mt-2 py-2 border-2 border-zinc-800 rounded-md block w-full bg-zinc-900" type="password" placeholder="password" name="password" onChange={(e) =>{setPassword(e.target.value)}}/>

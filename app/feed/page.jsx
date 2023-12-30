@@ -6,9 +6,10 @@ import Post from '../(componente)/Post';
 import { TiHeartOutline } from "react-icons/ti";
 import { RiMessengerLine } from "react-icons/ri";
 import Footer from '../(componente)/Footer';
+import Image from 'next/image';
 
 
-function page() {
+function Page() {
   const [users, setUsers] = useState([])
 
 
@@ -33,7 +34,7 @@ function page() {
     <div className='relative'>
     <div className="w-full min-h-screen bg-zinc-900 text-white py-5">
       <div className="w-full px-4 flex items-center justify-between">
-        <img className="w-1/4" src="/logo.png" alt="" />
+        <Image width='70' height='70' className="w-1/4 object-cover" src="/logo.png" alt="" />
         <div className="icons -mt-2 flex gap-3 items-center">
           <TiHeartOutline className='text-2xl' />
           <RiMessengerLine className='text-2xl' />
@@ -60,4 +61,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

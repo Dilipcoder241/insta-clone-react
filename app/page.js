@@ -1,9 +1,10 @@
 'use client'
+import Image from 'next/image';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 
-function page() {
+function Page() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -34,7 +35,7 @@ function page() {
   return (
     <div className="w-full min-h-screen bg-zinc-900 text-white py-5 flex flex-col items-center justify-center">
     <div className="flex flex-col items-center gap-5 px-4">
-      <img className="w-1/2" src="/logo.png" alt=""/>
+      <Image width='70' height='70' className="w-1/2" src="/logo.png" alt=""/>
       <form className="w-full" onSubmit={handleSubmit}>
         <input className="px-3 mt-2 py-2 border-2 border-zinc-800 rounded-md block w-full bg-zinc-900" type="text" placeholder="username" name="username" value={username} onChange={(e)=>{setUsername(e.target.value)}}/>
         <input className="px-3 mt-2 py-2 border-2 border-zinc-800 rounded-md block w-full bg-zinc-900" type="email" placeholder="email" name="email" value={email} onChange={(e)=>{setEmail(e.target.value)}}/>
@@ -48,4 +49,4 @@ function page() {
   )
 }
 
-export default page
+export default Page
