@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-function page() {
+function Page() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -47,4 +47,4 @@ function page() {
   )
 }
 
-export default page
+export default Page
