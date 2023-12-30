@@ -16,13 +16,13 @@ function page({params}) {
     const [userphoto, setuserphoto] = useState("")
 
     const dataget = async () =>{
-      const data = await fetch(`http://localhost:9000/profile/${params.username}`);
+      const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${params.username}`);
       const jdata = await data.json();
       setuserdata(jdata)
     }
 
     const getAllImages = async () =>{
-      const rowdata =  await fetch("http://localhost:9000/getallimage", {
+      const rowdata =  await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getallimage`, {
         method: "GET",
         headers: {
           "Token": localStorage.getItem("Token")
@@ -34,7 +34,7 @@ function page({params}) {
     }
 
     const getImage = async () =>{
-      const rowdata =  await fetch("http://localhost:9000/getimage", {
+      const rowdata =  await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getimage`, {
         method: "GET",
         headers: {
           "Token": localStorage.getItem("Token")

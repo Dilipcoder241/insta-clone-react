@@ -19,7 +19,7 @@ function PostuploadEdit({heading , type}) {
   const userphoto = useRef(null);
 
   const handleGetname = async ()=>{
-    const rowdata =  await fetch("http://localhost:9000/getname", {
+    const rowdata =  await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getname`, {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -52,7 +52,7 @@ function PostuploadEdit({heading , type}) {
     formData.append("username", username);
     formData.append("name", name);
     formData.append("bio", bio);
-    const rowdata =  await fetch("http://localhost:9000/edit", {
+    const rowdata =  await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/edit`, {
       method: "POST",
       body: formData,
       headers: {
@@ -72,7 +72,7 @@ function PostuploadEdit({heading , type}) {
     const formData = new FormData();
     formData.append("file", postfile);
     formData.append("caption", caption);
-    const rowdata =  await fetch("http://localhost:9000/upload", {
+    const rowdata =  await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`, {
       method: "POST",
       body: formData,
       headers: {

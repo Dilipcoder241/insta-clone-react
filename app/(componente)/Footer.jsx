@@ -6,6 +6,8 @@ import { RiHome5Line } from "react-icons/ri";
 import { IoSearchSharp } from "react-icons/io5";
 import { FaRegSquarePlus } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
+import { FaRegUserCircle } from "react-icons/fa";
+
 
 
 
@@ -15,7 +17,7 @@ function Footer() {
   const router = useRouter();
 
   const handleGetname = async ()=>{
-    const rowdata =  await fetch("http://localhost:9000/getname", {
+    const rowdata =  await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getname`, {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -39,7 +41,7 @@ function Footer() {
         <Link href="/search"><IoSearchSharp className="text-[1.4rem] ri-search-line"/></Link>
         <Link href="/upload"><FaRegSquarePlus className="text-[1.4rem] ri-add-box-line"/></Link>
         <button onClick={()=>{router.push(`/profile/${username}`)}}>
-          <div className="w-6 h-6 bg-zinc-300 rounded-full"></div>
+        <FaRegUserCircle className='text-xl'/>
         </button>
       </div>
   )

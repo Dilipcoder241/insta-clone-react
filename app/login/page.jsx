@@ -13,7 +13,7 @@ function page() {
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
-    const rowdata =  await fetch("http://localhost:9000/login", {
+    const rowdata =  await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
       method: "POST",
       body: JSON.stringify({
         username:username,

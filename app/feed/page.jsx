@@ -13,7 +13,7 @@ function page() {
 
 
   const getAllPosts = async () =>{
-    const rowdata =  await fetch("http://localhost:9000/getallposts", {
+    const rowdata =  await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/getallposts`, {
       method: "GET",
       headers: {
         "Token": localStorage.getItem("Token")
