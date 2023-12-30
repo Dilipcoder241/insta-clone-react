@@ -11,14 +11,14 @@ import Link from 'next/link';
 
 
 function page({params}) {
-    const [userdata, setuserdata] = useState({});
-    const [posts, setposts] = useState([])
-    const [userphoto, setuserphoto] = useState("")
+    const [userdata, setUserdata] = useState({});
+    const [posts, setPosts] = useState([])
+    const [userphoto, setUserphoto] = useState("")
 
     const dataget = async () =>{
       const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${params.username}`);
       const jdata = await data.json();
-      setuserdata(jdata)
+      setUserdata(jdata)
     }
 
     const getAllImages = async () =>{
@@ -30,7 +30,7 @@ function page({params}) {
         
       })
       const data = await rowdata.json();
-      setposts(data.result.posts.reverse());
+      setPosts(data.result.posts.reverse());
     }
 
     const getImage = async () =>{
@@ -42,7 +42,7 @@ function page({params}) {
         
       })
       const data = await rowdata.json();
-      setuserphoto(data.user.photo);
+      setUserphoto(data.user.photo);
     }
     useEffect(() => {
       dataget();

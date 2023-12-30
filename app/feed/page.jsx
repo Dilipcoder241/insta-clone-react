@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import React, { useEffect, useState } from 'react'
 import Story from '../(componente)/Story'
@@ -9,7 +9,7 @@ import Footer from '../(componente)/Footer';
 
 
 function page() {
-  const [users, setusers] = useState([])
+  const [users, setUsers] = useState([])
 
 
   const getAllPosts = async () =>{
@@ -21,7 +21,7 @@ function page() {
       
     })
     const data = await rowdata.json();
-    setusers(data.result.reverse());
+    setUsers(data.result.reverse());
   }
 
   useEffect(() => {

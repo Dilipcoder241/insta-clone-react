@@ -9,7 +9,7 @@ import Footer from '../(componente)/Footer';
 
 function page() {
     const [user, setUser] = useState(""); 
-    const [allUser, setallUser] = useState([])
+    const [allUser, setAllUser] = useState([])
 
     const handelChange = (e) => {
         setUser(e.target.value);
@@ -27,7 +27,7 @@ function page() {
         })
 
         let data = await rowdata.json();
-        setallUser(data.user);
+        setAllUser(data.user);
     }
 
     useEffect(() => {
