@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Story from '../(componente)/Story'
 import Post from '../(componente)/Post';
 import { TiHeartOutline } from "react-icons/ti";
@@ -9,6 +9,26 @@ import Footer from '../(componente)/Footer';
 
 
 function page() {
+  const [users, setusers] = useState([])
+
+
+  const getAllPosts = async () =>{
+    const rowdata =  await fetch("http://localhost:9000/getallposts", {
+      method: "GET",
+      headers: {
+        "Token": localStorage.getItem("Token")
+      }
+      
+    })
+    const data = await rowdata.json();
+    setusers(data.result.reverse());
+  }
+
+  useEffect(() => {
+    getAllPosts();
+  }, [])
+  
+
   return (
     <div className='relative'>
     <div className="w-full min-h-screen bg-zinc-900 text-white py-5">
@@ -29,9 +49,9 @@ function page() {
         <Story />
       </div>
       <div className="posts mb-20">
-        <Post />
-        <Post />
-        <Post />
+        {users.map((post , index)=>{
+          return <Post key={index} username={post.user.username} caption={post.caption} likes={post.likes.length} userPhoto={post.user.photo} postUrl={post.image}  />
+        })}
       </div>
     </div>
     <Footer/>

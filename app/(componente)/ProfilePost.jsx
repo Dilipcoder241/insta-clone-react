@@ -1,10 +1,12 @@
 'use client'
 
-import React from 'react'
+import React from 'react';
 
-function ProfilePost() {
+function ProfilePost({url}) {
   return (
-    <div className="post w-[32.5%] h-32 bg-sky-100"></div>
+    <div className="post w-[32.5%] h-32 overflow-hidden">
+      <img src={url} alt="" className='w-full h-full object-cover'/>
+    </div>
   )
 }
 

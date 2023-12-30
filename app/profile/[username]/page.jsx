@@ -9,16 +9,45 @@ import Link from 'next/link';
 
 
 
+
 function page({params}) {
     const [userdata, setuserdata] = useState({});
+    const [posts, setposts] = useState([])
+    const [userphoto, setuserphoto] = useState("")
 
     const dataget = async () =>{
       const data = await fetch(`http://localhost:9000/profile/${params.username}`);
       const jdata = await data.json();
       setuserdata(jdata)
     }
+
+    const getAllImages = async () =>{
+      const rowdata =  await fetch("http://localhost:9000/getallimage", {
+        method: "GET",
+        headers: {
+          "Token": localStorage.getItem("Token")
+        }
+        
+      })
+      const data = await rowdata.json();
+      setposts(data.result.posts.reverse());
+    }
+
+    const getImage = async () =>{
+      const rowdata =  await fetch("http://localhost:9000/getimage", {
+        method: "GET",
+        headers: {
+          "Token": localStorage.getItem("Token")
+        }
+        
+      })
+      const data = await rowdata.json();
+      setuserphoto(data.user.photo);
+    }
     useEffect(() => {
       dataget();
+      getAllImages();
+      getImage();
     }, [])
     
     
@@ -34,10 +63,12 @@ function page({params}) {
         </div>
       </div>
       <div className="flex justify-between items-center pl-6 pr-[12vw] mt-8">
-        <div className="w-[19vw] h-[19vw] bg-sky-100 rounded-full"></div>
+        <div className="w-[19vw] h-[19vw] rounded-full overflow-hidden">
+          <img src={userphoto} alt="" className='h-fill w-full object-cover'/>
+        </div>
         <div className="stats flex gap-5 items-center justify-between">
           <div className="flex flex-col items-center justify-center">
-            <h3>{userdata.posts}</h3>
+            <h3>{posts.length}</h3>
             <h4>Posts</h4>
           </div>
           <div className="flex flex-col items-center justify-center">
@@ -58,10 +89,9 @@ function page({params}) {
         <Link className="px-3 py-2 bg-zinc-800 text-xs rounded-md" href="/edit">Edit Profile</Link>
       </div>
       <div className="posts w-full flex gap-1 py-2 mt-5 flex-wrap">
-        <ProfilePost/>
-        <ProfilePost/>
-        <ProfilePost/>
-        <ProfilePost/>
+        {posts.map((post , index)=>{
+           return <ProfilePost key={index} url={post.image}/>
+        })}
       </div>
   </div>
   <Footer/>
