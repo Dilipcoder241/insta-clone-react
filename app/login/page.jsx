@@ -1,7 +1,5 @@
 'use client'
 
-
-import { RequestCookies } from 'next/dist/compiled/@edge-runtime/cookies';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -43,7 +41,7 @@ function page() {
         <input className="px-3 mt-2 py-2 border-2 border-zinc-800 rounded-md block w-full bg-zinc-900" type="password" placeholder="password" name="password" onChange={(e) =>{setPassword(e.target.value)}}/>
         <input className="w-full bg-blue-500 px-3 py-3 rounded-md mt-2" type="submit" value="Log In"/>
       </form>
-      <span>Don't have an account ? <a href="/" className="text-blue-500">Sign Up</a></span>
+      <span>Not have an account yet ? <a href="/" className="text-blue-500">Sign Up</a></span>
     </div>
   </div>
   )
