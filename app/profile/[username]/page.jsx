@@ -11,10 +11,10 @@ import Image from 'next/image';
 
 
 
-function page({params}) {
+function Page({params}) {
     const [userdata, setUserdata] = useState({});
-    const [posts, setPosts] = useState([])
-    const [userphoto, setUserphoto] = useState("")
+    const [posts, setPosts] = useState([]);
+    const [userphoto, setUserphoto] = useState("");
 
     const dataget = async () =>{
       const data = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/${params.username}`);
@@ -100,4 +100,4 @@ function page({params}) {
   )
 }
 
-export default page
+export default Page
