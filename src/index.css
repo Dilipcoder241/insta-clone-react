@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.w8{
+    width: 8vw;
+    height: 8vw;
+}
+
+.w30{
+    width: 30vw;
+    height: 30vw;
+}
+
+.footer{
+    position: fixed;
+    bottom: 0;
+    padding: 10px 20px;
+    z-index: 10;
+}
