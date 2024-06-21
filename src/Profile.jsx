@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import { RiMenu3Line } from "react-icons/ri";
 import { RiAddBoxLine } from "react-icons/ri";
 import { Link, useParams } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 
 
@@ -78,11 +79,11 @@ function Profile() {
             </div>
             <div className="flex flex-col items-center justify-center">
               <h3>322</h3>
-              <h4>Posts</h4>
+              <h4>Followers</h4>
             </div>
             <div className="flex flex-col items-center justify-center">
               <h3>322</h3>
-              <h4>Posts</h4>
+              <h4>Following</h4>
             </div>
           </div>
         </div>
@@ -93,11 +94,14 @@ function Profile() {
         <div className="px-6 mt-5">
           <Link className="px-3 py-2 bg-zinc-800 text-xs rounded-md" to="/edit">Edit Profile</Link>
         </div>
-        <div className="posts w-full flex gap-1 py-2 mt-5 flex-wrap">
+
+        {posts.length>1 ? <div className="posts w-full flex gap-1 py-2 mt-5 flex-wrap">
           {posts.map((post, index) => {
             return <ProfilePost key={index} url={post.image.data} />
           })}
-        </div>
+        </div> : <h1 className='m-10 '>no post to show</h1>}
+
+        
       </div>
       <Footer />
     </div>
