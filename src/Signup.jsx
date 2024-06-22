@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Link , useNavigate } from 'react-router-dom'
+import { Link , useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -11,7 +12,10 @@ function Signup() {
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
-    console.log()
+
+    if(!username || !email || !name || !password){
+      return toast.error("Please Fill All The Fields");
+    }
     const rowdata =  await fetch(`${import.meta.env.VITE_BACKEND_URL}/register`, {
       method: "POST",
       body: JSON.stringify({
@@ -28,6 +32,10 @@ function Signup() {
     let data = await rowdata.json();
     if(data.success){
       router(`/login`);
+      toast.success(data.msg);
+    }
+    else{
+      toast.error(data.msg);
     }
 
   }

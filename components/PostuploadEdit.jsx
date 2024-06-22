@@ -3,6 +3,7 @@ import { Link , useNavigate } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { BsFillImageFill } from "react-icons/bs";
 import { RiArrowLeftSLine , RiHome5Line } from "react-icons/ri";
+import { toast } from 'react-toastify';
 
 
 
@@ -46,6 +47,7 @@ function PostuploadEdit({heading , type}) {
 
   const handleSubmitEdit = async (e)=>{
     e.preventDefault();
+    
     const formData = new FormData();
     formData.append("file", userfile);
     formData.append("username", username);
@@ -60,7 +62,12 @@ function PostuploadEdit({heading , type}) {
       
     })
     const data = await rowdata.json();
-    // console.log(data);
+    if(data.success){
+      toast.success(data.msg, { position: "bottom-center", theme: "dark" });
+    }
+    else{
+      toast.error(data.msg, { position: "bottom-center", theme: "dark"});
+    }
     router(`/profile/${username}`)
 
   }

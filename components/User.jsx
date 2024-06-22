@@ -13,7 +13,7 @@ function User({ username, name, userphoto }) {
 
     return (
         <div className="text-white flex gap-5 items-center mt-5">
-            <div className="image w8 rounded-full overflow-hidden">
+            <div className="image w-[12vw] h-[12vw] rounded-full overflow-hidden">
                 <img src={urlString} alt="" className='object-cover h-full w-full' />
             </div>
             <div className="text">

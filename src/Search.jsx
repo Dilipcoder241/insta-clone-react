@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import User from '../components/User';
 import { CgSearch } from "react-icons/cg";
 import Footer from '../components/Footer';
+import UserLoader from '../components/UserLoader';
 
 
 
@@ -42,11 +43,11 @@ function Search() {
                     <CgSearch className='text-white ' />
                     <input onChange={handelChange} className="ml-1 w-full bg-zinc-900 outline-none text-zinc-400" type="text" placeholder="search username" />
                 </div>
-                <div className="users">
-                    {allUser.map((user , index)=>{
+                {allUser.length>=1 ?<div className="users">
+                    {allUser?.map((user , index)=>{
                         return <User key={index} username={user.username} name={user.name} userphoto={user.photo.data}/>
                     })}
-                </div>
+                </div>: <UserLoader/>}
             </div>
 
             <Footer />

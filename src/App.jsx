@@ -6,12 +6,15 @@ import Profile from "./Profile";
 import Search from "./Search";
 import Edit from "./Edit";
 import Upload from "./Upload";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 function App() {
   
   return (
+    <>
      <BrowserRouter>
       <Routes>
         <Route path="/" element={<Signup />}/>
@@ -23,6 +26,8 @@ function App() {
         <Route path="/upload" element={<Upload/>}/>
       </Routes>
     </BrowserRouter>
+      <ToastContainer theme="dark" position="bottom-center"/>
+    </>
   )
 }
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Story from '../components/Story'
 import Post from '../components/Post';
 import { TiHeartOutline } from "react-icons/ti";
-import { RiH1, RiMessengerLine } from "react-icons/ri";
+import { RiMessengerLine } from "react-icons/ri";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 
@@ -34,8 +34,8 @@ function Feed() {
           <div className="px-4 flex items-center justify-between">
             <img className="w-1/4 object-cover" src="/logo.png" alt="" />
             <div className="icons -mt-2 flex gap-3 items-center">
-              <TiHeartOutline className='text-2xl' />
-              <RiMessengerLine className='text-2xl' />
+              <TiHeartOutline className='text-2xl'/>
+              <RiMessengerLine className='text-2xl'/>
             </div>
           </div>
           <div className="story px-3 flex gap-3 overflow-auto mt-5">

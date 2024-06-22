@@ -1,5 +1,7 @@
 import {Link , useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+
 
 function Login() {
 
@@ -9,6 +11,10 @@ function Login() {
 
   const handleSubmit = async (e) =>{
     e.preventDefault();
+
+    if(!username || !password){
+      return toast.error("Please Fill All The Fields");
+    }
     const rowdata =  await fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
       method: "POST",
       body: JSON.stringify({
@@ -21,13 +27,14 @@ function Login() {
     })
 
     let data = await rowdata.json();
-    console.log(data)
+    
     if(data.success){
       localStorage.setItem("Token",data.token);
       router(`/profile/${username}`);
+      toast.success(data.msg);
     }
     else{
-      console.log(data);
+     toast.error(data.msg);
     }
   }
 
