@@ -12,13 +12,7 @@ function Feed() {
 
 
   const getAllPosts = async () => {
-    const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getallposts`, {
-      method: "GET",
-      headers: {
-        "Token": localStorage.getItem("Token")
-      }
-
-    })
+    const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getallposts`);
     const data = await rowdata.json();
     setUsers(data.result.reverse());
   }

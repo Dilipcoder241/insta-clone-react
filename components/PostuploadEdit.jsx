@@ -20,6 +20,10 @@ function PostuploadEdit({ heading, type }) {
   const userphoto = useRef(null);
 
   const handleGetname = async () => {
+    if(!localStorage.getItem("Token")){
+      toast.error("Please Login");
+      return;
+    }
     const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getname`, {
       method: "GET",
       headers: {

@@ -4,6 +4,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import { FaRegSquarePlus } from "react-icons/fa6";
 import { Link ,useNavigate } from 'react-router-dom';
 import { FaRegUserCircle } from "react-icons/fa";
+import { toast } from 'react-toastify';
 
 
 function Footer() {
@@ -11,6 +12,11 @@ function Footer() {
   const router = useNavigate();
 
   const handleGetname = async ()=>{
+    if(!localStorage.getItem("Token")){
+      toast.error("Please Login");
+      return;
+    }
+
     const rowdata =  await fetch(`${import.meta.env.VITE_BACKEND_URL}/getname`, {
       method: "GET",
       headers: {
@@ -20,7 +26,16 @@ function Footer() {
       
     })
     const data = await rowdata.json();
+
     setusername(data.username);
+  }
+
+  const clickProfileBtn =()=>{
+    if(!username){
+      router("/login");
+      return;
+    }
+    router(`/profile/${username}`)
   }
 
   useEffect(() => {
@@ -33,8 +48,8 @@ function Footer() {
     <div className="footer text-white flex justify-between items-center w-full fixed bottom-0 z-10 bg-zinc-900">
         <Link to="/feed"><RiHome5Line className="text-[1.4rem] ri-home-line"/></Link>
         <Link to="/search"><IoSearchSharp className="text-[1.4rem] ri-search-line"/></Link>
-        <Link to="/upload"><FaRegSquarePlus className="text-[1.4rem] ri-add-box-line"/></Link>
-        <button onClick={()=>{router(`/profile/${username}`)}}>
+        <Link to={`${username? "/upload": "/login"}`}><FaRegSquarePlus className="text-[1.4rem] ri-add-box-line"/></Link>
+        <button onClick={clickProfileBtn}>
           <FaRegUserCircle className='text-xl'/>
         </button>
       </div>

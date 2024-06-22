@@ -15,33 +15,20 @@ function Profile() {
   const [userphoto, setUserphoto] = useState("");
 
   const dataget = async () => {
-    const data = await fetch(`${import.meta.env.VITE_BACKEND_URL}/profile/${username}`);
+    const data = await fetch(`${import.meta.env.VITE_BACKEND_URL}/profile/${username}`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        "Token": localStorage.getItem("Token")
+      }
+      
+    })
     const jdata = await data.json();
-    setUserdata(jdata)
-  }
 
-  const getAllImages = async () => {
-    const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getallimage`, {
-      method: "GET",
-      headers: {
-        "Token": localStorage.getItem("Token")
-      }
-
-    })
-    const data = await rowdata.json();
-    setPosts(data.result.posts.reverse());
-  }
-
-  const getImage = async () => {
-    const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getimage`, {
-      method: "GET",
-      headers: {
-        "Token": localStorage.getItem("Token")
-      }
-
-    })
-    const data = await rowdata.json();
-    const uint8Array = new Uint8Array(data.user.photo.data);
+    setUserdata(jdata);
+    setPosts(jdata.posts.reverse());
+    
+    const uint8Array = new Uint8Array(jdata.photo.data);
     const blob = new Blob([uint8Array], { type: 'image/jpeg' });
     const reader = new FileReader();
     reader.readAsDataURL(blob);
@@ -49,10 +36,11 @@ function Profile() {
       setUserphoto(reader.result);
     };
   }
+
+
+  
   useEffect(() => {
     dataget();
-    getAllImages();
-    getImage();
   }, [userphoto])
 
 
