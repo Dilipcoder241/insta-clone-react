@@ -7,38 +7,19 @@ import { FiBookmark } from "react-icons/fi";
 
 
 function Post({username, caption, likes , userPhoto , postUrl}) {
-  
-  const [PostUrlString, setPostUrlString] = useState("")
-  const [UserUrlString, setUserUrlString] = useState("")
-
-  const Post = new Uint8Array(postUrl);
-  const Postb = new Blob([Post], { type: 'image/jpeg' });
-  const Postreader = new FileReader();
-  Postreader.readAsDataURL(Postb);
-  Postreader.onload = () => {
-    setPostUrlString(Postreader.result);
-  };
-
-  const User = new Uint8Array(userPhoto);
-  const Userb = new Blob([User], { type: 'image/jpeg' });
-  const Userreader = new FileReader();
-  Userreader.readAsDataURL(Userb);
-  Userreader.onload = () => {
-    setUserUrlString(Userreader.result);
-  };
 
 
   return (
     <div className="post mt-5">
         <div className="title px-2 flex items-center gap-2">
           <div className="w8 rounded-full overflow-hidden">
-            <img src={UserUrlString} alt="img" className="object-cover h-full w-full"/>
+            <img src={userPhoto} alt="img" className="object-cover h-full w-full"/>
           </div>
           <h4 className="text-sm px-2">{username}</h4>
           <h6 className="text-xs text-zinc-900">1d</h6>
         </div>
         <div className="w-full h50 mt-4 overflow-hidden">
-          <img src={PostUrlString} alt="img" className='object-cover object-center w-full h-full'/>
+          <img src={postUrl} alt="img" className='object-cover object-center w-full h-full'/>
         </div>
         <div className="options w-full px-2 flex justify-between items-center text-[1.4rem]">
           <div className="flex gap-3 mt-2">

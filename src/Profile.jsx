@@ -27,14 +27,7 @@ function Profile() {
 
     setUserdata(jdata);
     setPosts(jdata.posts.reverse());
-    
-    const uint8Array = new Uint8Array(jdata.photo.data);
-    const blob = new Blob([uint8Array], { type: 'image/jpeg' });
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
-    reader.onload = () => {
-      setUserphoto(reader.result);
-    };
+    setUserphoto(jdata.photo)
   }
 
 
@@ -84,7 +77,7 @@ function Profile() {
 
         {posts.length>=1 ? <div className="posts w-full flex gap-1 py-2 mt-5 flex-wrap">
           {posts.map((post, index) => {
-            return <ProfilePost key={index} url={post.image.data} />
+            return <ProfilePost key={index} url={post.image} />
           })}
         </div> : <h1 className='m-10 '>no post to show</h1>}
 

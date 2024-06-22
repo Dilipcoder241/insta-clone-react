@@ -42,9 +42,9 @@ function Feed() {
           </div>
 
 
-          {users.length > 1 ?<div className="posts mb-20 w-full">
+          {users.length >= 1 ?<div className="posts mb-20 w-full">
             {users.map((post, index) => {
-              return <Post key={index} username={post.user.username} caption={post.caption} likes={post.likes.length} userPhoto={post.user.photo?.data} postUrl={post.image.data} />
+              return <Post key={index} username={post.user.username} caption={post.caption} likes={post.likes.length} userPhoto={post.user.photo} postUrl={post.image} />
             })}
           </div>: <Loader/>}
         </div>

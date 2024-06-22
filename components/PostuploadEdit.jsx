@@ -1,7 +1,6 @@
 
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
-import { BsFillImageFill } from "react-icons/bs";
 import { RiArrowLeftSLine, RiHome5Line } from "react-icons/ri";
 import { toast } from 'react-toastify';
 
@@ -20,7 +19,7 @@ function PostuploadEdit({ heading, type }) {
   const userphoto = useRef(null);
 
   const handleGetname = async () => {
-    if(!localStorage.getItem("Token")){
+    if (!localStorage.getItem("Token")) {
       toast.error("Please Login");
       return;
     }
@@ -36,13 +35,7 @@ function PostuploadEdit({ heading, type }) {
     setusername(data.username);
     setbio(data?.bio);
     setname(data?.name);
-    const uint8Array = new Uint8Array(data?.photo.data);
-    const blob = new Blob([uint8Array], { type: 'image/jpeg' });
-    const reader = new FileReader();
-    reader.readAsDataURL(blob);
-    reader.onload = () => {
-      Setsrc(reader.result);
-    };
+    Setsrc(data?.photo);
   }
 
   useEffect(() => {
@@ -57,19 +50,41 @@ function PostuploadEdit({ heading, type }) {
     userphoto.current.click();
   }
 
+  const uploadToCloud = async (file) => {
+    try {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "instaClone");
+      data.append("cloud_name", "instacloud11");
+      const rawResult = await fetch("https://api.cloudinary.com/v1_1/instacloud11/image/upload", {
+        method: "post",
+        body: data
+      });
+      const result = await rawResult.json();
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const handleSubmitEdit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("file", userfile);
-    formData.append("username", username);
-    formData.append("name", name);
-    formData.append("bio", bio);
+    const result = await uploadToCloud(userfile);
+
+
     const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/edit`, {
       method: "POST",
-      body: formData,
+      body: JSON.stringify({
+        username: username,
+        name: name,
+        bio: bio,
+        photo: result.url,
+        publicId: result.public_id,
+      }),
       headers: {
-        "Token": localStorage.getItem("Token")
+        "Token": localStorage.getItem("Token"),
+        "Content-type": "application/json; charset=UTF-8"
       }
 
     })
@@ -86,20 +101,26 @@ function PostuploadEdit({ heading, type }) {
 
   const handleSubmitUpdate = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("file", postfile);
-    formData.append("caption", caption);
+    // posting image to cloudinary
+    const result = await uploadToCloud(postfile);
+
     const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
       method: "POST",
-      body: formData,
+      body: JSON.stringify({
+        caption,
+        image: result.url,
+        publicId: result.public_id
+      }),
       headers: {
-        "Token": localStorage.getItem("Token")
+        "Token": localStorage.getItem("Token"),
+        "Content-type": "application/json; charset=UTF-8"
       }
 
     })
-    const data = await rowdata.json();
-    console.log(data)
+    const postdata = await rowdata.json();
+    console.log(postdata)
     router(`/profile/${username}`)
+
   }
 
   return (
@@ -109,12 +130,14 @@ function PostuploadEdit({ heading, type }) {
         <h2 className="leading-none text-sm">{heading}</h2>
         <Link className="text-sm flex gap-1 justify-center items-center" to="/feed"><RiHome5Line /> home</Link>
       </div>
+
       <div className="flex flex-col items-center gap-2 mt-5">
         <div className="image w-[60vw] h-[60vw] rounded-lg overflow-hidden border-2 border-zinc-700 flex items-center justify-center">
           <img src={src} className='object-cover object-center h-full w-full' />
         </div>
         <button id="selectpic" className="text-blue-500 capitalize cursor-pointer" onClick={type == "upload" ? onclickUploadPhoto : onclickEditPhoto}>select picture</button>
       </div>
+
       {type == "upload" ?
         <form id="uploadform" onSubmit={handleSubmitUpdate} className="w-full px-6 py-3 mt-10" encType="multipart/form-data">
           <input ref={postphoto} hidden type="file" name="image" onChange={(e) => { setpostfile(e.target.files[0]); Setsrc(URL.createObjectURL(e.target.files[0])) }} />
