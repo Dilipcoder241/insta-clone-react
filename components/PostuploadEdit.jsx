@@ -1,5 +1,5 @@
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate ,useLocation } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { RiArrowLeftSLine, RiHome5Line } from "react-icons/ri";
 import { toast } from 'react-toastify';
@@ -17,6 +17,7 @@ function PostuploadEdit({ heading, type }) {
   const router = useNavigate();
   const postphoto = useRef(null);
   const userphoto = useRef(null);
+  const location = useLocation();
 
   const handleGetname = async () => {
     if (!localStorage.getItem("Token")) {
@@ -35,7 +36,9 @@ function PostuploadEdit({ heading, type }) {
     setusername(data.username);
     setbio(data?.bio);
     setname(data?.name);
-    Setsrc(data?.photo);
+    if(location.pathname == "/edit"){
+      Setsrc(data?.photo);
+    }
   }
 
   useEffect(() => {
@@ -63,7 +66,7 @@ function PostuploadEdit({ heading, type }) {
       const result = await rawResult.json();
       return result;
     } catch (error) {
-      console.log(error);
+      toast.error("not able to upload your image");
     }
   }
 
@@ -102,7 +105,13 @@ function PostuploadEdit({ heading, type }) {
   const handleSubmitUpdate = async (e) => {
     e.preventDefault();
     // posting image to cloudinary
+    if(!caption){
+      return toast.error("Please give Caption for your post");
+    }
     const result = await uploadToCloud(postfile);
+    if(!result){
+      return;
+    }
 
     const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
       method: "POST",
