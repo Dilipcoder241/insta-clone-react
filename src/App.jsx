@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   
   return (
-    <>
+    <> 
      <BrowserRouter>
       <Routes>
         <Route path="/" element={<Signup />}/>

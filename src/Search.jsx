@@ -45,7 +45,7 @@ function Search() {
                 </div>
                 {allUser.length>=1 ?<div className="users">
                     {allUser?.map((user , index)=>{
-                        return <User key={index} username={user.username} name={user.name} userphoto={user.photo.data}/>
+                        return <User key={index} username={user.username} name={user.name} userphoto={user.photo}/>
                     })}
                 </div>: <UserLoader/>}
             </div>

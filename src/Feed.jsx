@@ -10,7 +10,6 @@ import Loader from "../components/Loader";
 function Feed() {
   const [posts, setPosts] = useState([]);
 
-
   const getAllPosts = async () => {
     const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getallposts`);
     const data = await rowdata.json();
@@ -20,9 +19,6 @@ function Feed() {
   useEffect(() => {
     getAllPosts();
   }, [])
-
-  
-
 
 
   return (
@@ -47,11 +43,12 @@ function Feed() {
 
           {posts.length >= 1 ?<div className="posts mb-20 w-full">
             {posts.map((post) => {
-              return <Post key={post._id} id={post._id} username={post.user.username} caption={post.caption} userPhoto={post.user.photo} postUrl={post.image} likes={post.likes.length}/>
+              return <Post key={post._id} id={post._id} username={post.user.username} caption={post.caption} userPhoto={post.user.photo} postUrl={post.image} likes={post.likes.length} comment={post.comment}/>
             })}
           </div>: <Loader/>}
         </div>
         <Footer />
+
     </div >
 
   )
