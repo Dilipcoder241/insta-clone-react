@@ -8,6 +8,7 @@ import Edit from "./Edit";
 import Upload from "./Upload";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import OtherUserProfile from "./OtherUserProfile";
 
 
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/search" element={<Search/>}/>
         <Route path="/edit" element={<Edit/>}/>
         <Route path="/upload" element={<Upload/>}/>
+        <Route path="/user/:id" element={<OtherUserProfile/>}/>
       </Routes>
     </BrowserRouter>
       <ToastContainer theme="dark" position="bottom-center"/>

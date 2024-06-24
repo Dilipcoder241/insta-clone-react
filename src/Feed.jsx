@@ -43,7 +43,7 @@ function Feed() {
 
           {posts.length >= 1 ?<div className="posts mb-20 w-full">
             {posts.map((post) => {
-              return <Post key={post._id} id={post._id} username={post.user.username} caption={post.caption} userPhoto={post.user.photo} postUrl={post.image} likes={post.likes.length} comment={post.comment}/>
+              return <Post key={post._id} id={post._id} postuser={post.user}  post={post}/>
             })}
           </div>: <Loader/>}
         </div>

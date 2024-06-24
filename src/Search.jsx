@@ -9,7 +9,8 @@ import UserLoader from '../components/UserLoader';
 
 function Search() {
     const [user, setUser] = useState(""); 
-    const [allUser, setAllUser] = useState([])
+    const [allUser, setAllUser] = useState([]);
+    const [loginUser, setloginUser] = useState("");
 
     const handelChange = (e) => {
         setUser(e.target.value);
@@ -22,12 +23,14 @@ function Search() {
                 name:name
             }),
             headers: {
-                "Content-type": "application/json; charset=UTF-8"
+                "Content-type": "application/json; charset=UTF-8",
+                "Token": localStorage.getItem("Token")
             }
         })
 
         let data = await rowdata.json();
         setAllUser(data.user);
+        setloginUser(data.loginUser);
     }
 
     useEffect(() => {
@@ -45,7 +48,7 @@ function Search() {
                 </div>
                 {allUser.length>=1 ?<div className="users">
                     {allUser?.map((user , index)=>{
-                        return <User key={index} username={user.username} name={user.name} userphoto={user.photo}/>
+                        return <User key={index} user={user} loginUser={loginUser}/>
                     })}
                 </div>: <UserLoader/>}
             </div>

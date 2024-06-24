@@ -1,0 +1,106 @@
+import React, { useEffect, useState } from 'react'
+import { RiMenu3Line } from 'react-icons/ri'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import Footer from '../components/Footer';
+import ProfilePost from '../components/ProfilePost';
+
+function OtherUserProfile() {
+    const { id } = useParams();
+    const [user, setUser] = useState("");
+    const [loginUser, setloginUser] = useState("");
+    const navigate = useNavigate();
+
+
+    const handleGetname = async ()=>{
+        if(!localStorage.getItem("Token")){
+          toast.error("Please Login");
+          return;
+        }
+    
+        const rowdata =  await fetch(`${import.meta.env.VITE_BACKEND_URL}/getname`, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            "Token": localStorage.getItem("Token")
+          }
+          
+        })
+        const data = await rowdata.json();
+    
+        setloginUser(data);
+      }
+
+    const dataget = async () => {
+        const data = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Token": localStorage.getItem("Token")
+            }
+
+        })
+        const jdata = await data.json();
+
+        setUser(jdata.user);
+    }
+
+
+
+    useEffect(() => {
+        dataget();
+        handleGetname();
+    }, [])
+
+
+
+    return (
+        <div className='relative'>
+            <div className="w-full min-h-screen bg-zinc-900 text-white py-2">
+                <div className="nav flex justify-between items-center px-4">
+                    <h3 className="text-lg">{user.username}</h3>
+                    <div className="icons flex gap-5 items-center">
+                        <RiMenu3Line />
+                    </div>
+                </div>
+                <div className="flex justify-between items-center pl-6 pr-[12vw] mt-8">
+                    <div className="w-[20vw] h-[20vw] rounded-full overflow-hidden border-2">
+                        <img src={user.photo} alt="" className='object-cover object-center w-full h-full' />
+                    </div>
+                    <div className="stats flex gap-5 items-center justify-between">
+                        <div className="flex flex-col items-center justify-center">
+                            <h3>{user.posts?.length}</h3>
+                            <h4>Posts</h4>
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <h3>322</h3>
+                            <h4>Followers</h4>
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <h3>322</h3>
+                            <h4>Following</h4>
+                        </div>
+                    </div>
+                </div>
+                <div className="dets px-6 mt-5">
+                    <h3 className="text-lg mb-1">{user.name}</h3>
+                    <p className="text-xs tracking-tight opacity-50">{user.bio}.</p>
+                </div>
+                <div className="px-6 mt-5 flex gap-2">
+                    <Link className="px-6 py-2 rounded-md bg-blue-500">Follow</Link>
+                    <Link className="px-6 py-2 rounded-md bg-zinc-500">Message</Link>
+                </div>
+
+                {user.posts?.length >= 1 ? <div className="posts w-full flex gap-1 py-2 mt-5 flex-wrap">
+                    {user.posts.map((post) => {
+                        return <ProfilePost key={post._id} url={post.image} post={post} user={user} loginUser={loginUser}/>
+                    })}
+                </div> : <h1 className='m-10 '>no post to show</h1>}
+
+
+            </div>
+            <Footer />
+        </div>
+    )
+}
+
+export default OtherUserProfile

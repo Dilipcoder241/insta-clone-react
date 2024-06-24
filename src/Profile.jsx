@@ -77,7 +77,7 @@ function Profile() {
 
         {posts.length>=1 ? <div className="posts w-full flex gap-1 py-2 mt-5 flex-wrap">
           {posts.map((post) => {
-            return <ProfilePost key={post._id} url={post.image} />
+            return <ProfilePost key={post._id} post={post} user={userdata} loginUser={userdata}/>
           })}
         </div> : <h1 className='m-10 '>no post to show</h1>}
 
