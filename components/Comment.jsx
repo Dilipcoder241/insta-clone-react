@@ -1,13 +1,20 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { IoMdSend } from 'react-icons/io';
 import { IoClose } from 'react-icons/io5';
+import { toast } from 'react-toastify';
 
-function Comment({ setShowComment , post , user , loginUser}) {
+function Comment({ setShowComment , post , loginUser}) {
     const [comments, setcomments] = useState(post.comment);
     const [commentText, setcommentText] = useState("");
+    const submitBtn = useRef("");
 
     const handleComment = async (id) => {
+        if(!commentText){
+          return toast.error("Please Write A Comment First");
+        }
+
         try {
+          submitBtn.current.disabled = true;
           const rowData = await fetch(`${import.meta.env.VITE_BACKEND_URL}/comment/${id}`, {
             method: "POST",
             body: JSON.stringify({
@@ -22,11 +29,13 @@ function Comment({ setShowComment , post , user , loginUser}) {
           const data = await rowData.json();
           setcomments(data.updatedPost.comment);
           setcommentText("");
+          submitBtn.current.disabled = false;
     
         } catch (error) {
+          submitBtn.current.disabled = false;
           toast.error("not able to comment on the post");
         }
-      }
+    }
 
   return (
     <div className='w-screen h-screen fixed bottom-0 left-0 bg-black bg-opacity-70 z-20'>
@@ -56,11 +65,11 @@ function Comment({ setShowComment , post , user , loginUser}) {
             <img src={loginUser?.photo} alt="user" className='w-full h-full object-cover' />
           </div>
           <input type="text" placeholder='Add a comment' className='bg-transparent w-[75%] outline-none' value={commentText} onChange={(e) => { setcommentText(e.target.value) }} />
-          <button className='text-2xl text-blue-500 p-2' onClick={() => handleComment(post._id)}><IoMdSend /></button>
+          <button ref={submitBtn} className='text-2xl text-blue-500 p-2' onClick={() => handleComment(post._id)}><IoMdSend /></button>
         </div>
       </div>
     </div>
   )
 }
 
-export default Comment
+export default Comment;

@@ -9,6 +9,9 @@ function OtherUserProfile() {
     const [user, setUser] = useState("");
     const [loginUser, setloginUser] = useState("");
     const navigate = useNavigate();
+    const [followBtnText, setFollowBtnText] = useState("Follow");
+    const [NoOfFollowers, setNoOfFollowers] = useState(0);
+    const [NoOfFolloing, setNoOfFolloing] = useState(0);
 
 
     const handleGetname = async ()=>{
@@ -40,15 +43,38 @@ function OtherUserProfile() {
 
         })
         const jdata = await data.json();
-
         setUser(jdata.user);
+        setNoOfFollowers(jdata.user?.followers.length);
+        setNoOfFolloing(jdata.user?.following.length);
+
+        if(jdata.user.followers?.indexOf(loginUser._id)== -1){
+            setFollowBtnText("Follow");
+        }
+        else{
+            setFollowBtnText("Unfollow");
+        }
     }
 
 
+    const handleFollow = async (id) =>{
+        const data = await fetch(`${import.meta.env.VITE_BACKEND_URL}/follow/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Token": localStorage.getItem("Token")
+            }
+
+        })
+        const jdata = await data.json();
+        console.log(jdata);
+        setFollowBtnText((prev)=>prev=="Follow"?"Unfollow":"Follow");
+        setNoOfFollowers((prev)=>followBtnText=="Follow"?prev+1:prev-1);
+    }
+
 
     useEffect(() => {
-        dataget();
         handleGetname();
+        dataget();
     }, [])
 
 
@@ -72,11 +98,11 @@ function OtherUserProfile() {
                             <h4>Posts</h4>
                         </div>
                         <div className="flex flex-col items-center justify-center">
-                            <h3>322</h3>
+                            <h3>{NoOfFollowers}</h3>
                             <h4>Followers</h4>
                         </div>
                         <div className="flex flex-col items-center justify-center">
-                            <h3>322</h3>
+                            <h3>{NoOfFolloing}</h3>
                             <h4>Following</h4>
                         </div>
                     </div>
@@ -86,7 +112,7 @@ function OtherUserProfile() {
                     <p className="text-xs tracking-tight opacity-50">{user.bio}.</p>
                 </div>
                 <div className="px-6 mt-5 flex gap-2">
-                    <Link className="px-6 py-2 rounded-md bg-blue-500">Follow</Link>
+                    <button className="px-6 py-2 rounded-md bg-blue-500" onClick={()=>{handleFollow(user._id)}}>{followBtnText}</button>
                     <Link className="px-6 py-2 rounded-md bg-zinc-500">Message</Link>
                 </div>
 

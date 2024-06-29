@@ -90,10 +90,10 @@ function Post({ id, postuser,post }) {
 
        {/* comment section */}
        <div>
-        {showComment && <Comment setShowComment={setShowComment} post={post} user={user} loginUser={user}/>}
+        {showComment && <Comment setShowComment={setShowComment} post={post} loginUser={user}/>}
         </div> 
     </div>
   )
 }
 
-export default Post
+export default Post;

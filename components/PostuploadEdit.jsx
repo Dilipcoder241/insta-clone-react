@@ -18,6 +18,7 @@ function PostuploadEdit({ heading, type }) {
   const postphoto = useRef(null);
   const userphoto = useRef(null);
   const location = useLocation();
+  const submitBtn = useRef("");
 
   const handleGetname = async () => {
     if (!localStorage.getItem("Token")) {
@@ -75,6 +76,12 @@ function PostuploadEdit({ heading, type }) {
 
     const result = await uploadToCloud(userfile);
 
+    if(!result){
+      toast.error("not able to Edit Profile");
+      return ;
+    }
+
+    submitBtn.current.disabled = true;
 
     const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/edit`, {
       method: "POST",
@@ -93,10 +100,12 @@ function PostuploadEdit({ heading, type }) {
     })
     const data = await rowdata.json();
     if (data.success) {
-      toast.success(data.msg, { position: "bottom-center", theme: "dark" });
+      submitBtn.current.disabled = false;
+      toast.success(data.msg);
     }
     else {
-      toast.error(data.msg, { position: "bottom-center", theme: "dark" });
+      submitBtn.current.disabled = false;
+      toast.error(data.msg);
     }
     router(`/profile/${username}`)
 
@@ -110,9 +119,10 @@ function PostuploadEdit({ heading, type }) {
     }
     const result = await uploadToCloud(postfile);
     if(!result){
+      toast.error("not able to upload Post");
       return;
     }
-
+    submitBtn.current.disabled = true;
     const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
       method: "POST",
       body: JSON.stringify({
@@ -124,11 +134,17 @@ function PostuploadEdit({ heading, type }) {
         "Token": localStorage.getItem("Token"),
         "Content-type": "application/json; charset=UTF-8"
       }
-
-    })
-    const postdata = await rowdata.json();
-    console.log(postdata)
-    router(`/profile/${username}`)
+    });
+    const data = await rowdata.json();
+    if (data.success) {
+      submitBtn.current.disabled = false;
+      toast.success(data.msg);
+    }
+    else {
+      submitBtn.current.disabled = false;
+      toast.error(data.msg);
+    }
+    router(`/profile/${username}`);
 
   }
 
@@ -151,14 +167,14 @@ function PostuploadEdit({ heading, type }) {
         <form id="uploadform" onSubmit={handleSubmitUpdate} className="w-full px-6 py-3 mt-10" encType="multipart/form-data">
           <input ref={postphoto} hidden type="file" name="image" onChange={(e) => { setpostfile(e.target.files[0]); Setsrc(URL.createObjectURL(e.target.files[0])) }} />
           <textarea className="px-2 py-1 w-full bg-zinc-900 border-2 h-20 border-zinc-800 resize-none rounded-md outline-none" placeholder="Write a caption..." onChange={(e) => { setcaption(e.target.value) }}></textarea>
-          <input className="w-full px-2 py-2 bg-blue-500 rounded-md" type="submit" value="Post" />
+          <input ref={submitBtn} className="w-full px-2 py-2 bg-blue-500 rounded-md" type="submit" value="Post" />
         </form> :
         <form className="w-full px-6 py-3" onSubmit={handleSubmitEdit}>
           <input ref={userphoto} type="file" name="photo" hidden onChange={(e) => { setuserfile(e.target.files[0]); Setsrc(URL.createObjectURL(e.target.files[0])) }} />
           <input className="px-3 mt-2 py-2 border-2 border-zinc-800 rounded-md block w-full bg-zinc-900" type="text" placeholder="username" name="username" value={username} onChange={(e) => { setusername(e.target.value) }} />
           <input className="px-3 mt-2 py-2 border-2 border-zinc-800 rounded-md block w-full bg-zinc-900" type="text" placeholder="name" name="name" value={name} onChange={(e) => { setname(e.target.value) }} />
           <textarea className="px-3 mt-2 py-2 border-2 border-zinc-800 rounded-md block w-full bg-zinc-900 resize-none" placeholder="Bio" value={bio} onChange={(e) => { setbio(e.target.value) }}></textarea>
-          <input className="w-full bg-blue-500 px-3 py-3 rounded-md mt-2" type="submit" value="Update Details" />
+          <input ref={submitBtn} className="w-full bg-blue-500 px-3 py-3 rounded-md mt-2" type="submit" value="Update Details" />
         </form>}
     </div>
   )

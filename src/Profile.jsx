@@ -58,11 +58,11 @@ function Profile() {
               <h4>Posts</h4>
             </div>
             <div className="flex flex-col items-center justify-center">
-              <h3>322</h3>
+              <h3>{userdata.followers?.length}</h3>
               <h4>Followers</h4>
             </div>
             <div className="flex flex-col items-center justify-center">
-              <h3>322</h3>
+              <h3>{userdata.following?.length}</h3>
               <h4>Following</h4>
             </div>
           </div>
