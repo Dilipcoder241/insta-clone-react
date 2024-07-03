@@ -62,13 +62,13 @@ function Post({ id, postuser,post }) {
   return (
     <div className="post mt-5">
       <div className="title px-2 flex items-center gap-2">
-        <div className="w8 rounded-full overflow-hidden">
+        <div className="w-[8vw] h-[8vw] md:w-[2.5vw] md:h-[2.5vw] rounded-full overflow-hidden">
           <img src={postuser.photo} alt="img" className="object-cover h-full w-full"/>
         </div>
         <Link className="text-sm px-2" to={user._id == postuser._id ?`/profile/${user.username}`:`/user/${postuser._id}`}>{postuser.username}</Link>
         <h6 className="text-xs text-zinc-900">1d</h6>
       </div>
-      <div className="w-full h50 mt-4 overflow-hidden">
+      <div className="w-full h-[50vh] md:h-[60vh] mt-4 overflow-hidden">
         <img src={post.image} alt="img" className='object-cover object-center w-full h-full' />
       </div>
       <div className="options w-full px-2 flex justify-between items-center text-[1.4rem]">
@@ -90,7 +90,7 @@ function Post({ id, postuser,post }) {
 
        {/* comment section */}
        <div>
-        {showComment && <Comment setShowComment={setShowComment} post={post} loginUser={user}/>}
+        {showComment && <Comment setShowComment={setShowComment} post={post} loginUser={user} user={user}/>}
         </div> 
     </div>
   )

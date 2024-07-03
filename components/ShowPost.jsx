@@ -61,7 +61,7 @@ function ShowPost({setShowPost , post , user , setShowComment , loginUser}) {
             <div className='py-2 rounded-lg overflow-hidden bg-zinc-800 m-2 w-full'>
                 <div className="title px-2 flex justify-between">
                     <div className='flex items-center gap-2 mb-2'>
-                        <div className="w8 rounded-full overflow-hidden">
+                        <div className="w-[8vw] h-[8vw] rounded-full overflow-hidden">
                             <img src={user.photo} alt="img" className="object-cover h-full w-full" />
                         </div>
                         <h4 className="text-sm px-2">{user.username}</h4>

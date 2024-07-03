@@ -5,9 +5,9 @@ import Footer from '../components/Footer';
 
 function Upload() {
   return (
-    <div className='relative'>
-    <PostuploadEdit heading="Upload Post" type="upload"/>
+    <div className='relative md:flex'>
     <Footer/>
+    <PostuploadEdit heading="Upload Post" type="upload"/>
     </div>
   )
 }

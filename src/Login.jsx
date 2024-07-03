@@ -44,7 +44,7 @@ function Login() {
   }
 
   return (
-    <div className="w-full min-h-screen bg-zinc-900 text-white py-5 flex flex-col items-center justify-center">
+    <div className="w-full md:w-[30%] md:mx-auto min-h-screen bg-zinc-900 text-white py-5 flex flex-col items-center justify-center">
       <div className="flex flex-col items-center gap-5 px-4">
         <img width='70' height='70' className="w-1/2" src="/logo.png" alt="" />
         <form className="w-full" onSubmit={handleSubmit}>

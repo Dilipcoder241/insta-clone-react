@@ -39,9 +39,9 @@ function Search() {
     
 
     return (
-        <div className='relative'>
-
-            <div className="w-full min-h-screen bg-zinc-900 px-4 py-5">
+        <div className='relative flex'>
+            <Footer />
+            <div className="w-full min-h-screen bg-zinc-900 px-4 py-5 md:w-[30%]">
                 <div className="border-2 border-zinc-800 flex items-center gap-1 px-2 py-1 rounded-md">
                     <CgSearch className='text-white ' />
                     <input onChange={handelChange} className="ml-1 w-full bg-zinc-900 outline-none text-zinc-400" type="text" placeholder="search username" />
@@ -52,8 +52,6 @@ function Search() {
                     })}
                 </div>: <UserLoader/>}
             </div>
-
-            <Footer />
         </div>
 
     )

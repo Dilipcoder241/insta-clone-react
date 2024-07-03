@@ -22,11 +22,12 @@ function Feed() {
 
 
   return (
-    <div className='relative'>
-        <div className="bg-zinc-900 text-white py-5 min-h-screen">
-          <div className="px-4 flex items-center justify-between">
-            <img className="w-1/4 object-cover" src="/logo.png" alt="" />
-            <div className="icons -mt-2 flex gap-3 items-center">
+    <div className='relative md:flex md:h-screen '>
+      <Footer />
+        <div className="bg-zinc-900 text-white py-5 min-h-screen md:w-[35%] overflow-y-scroll md:ml-20 md:px-4 md:py-1">
+          <div className="px-4 flex items-center justify-between md:hidden">
+            <img className="w-1/4 md:w-[10%] object-cover" src="/logo.png" alt="" />
+            <div className="icons -mt-2 flex gap-3 items-center md:hidden">
               <TiHeartOutline className='text-2xl'/>
               <RiMessengerLine className='text-2xl'/>
             </div>
@@ -47,7 +48,6 @@ function Feed() {
             })}
           </div>: <Loader/>}
         </div>
-        <Footer />
 
     </div >
 

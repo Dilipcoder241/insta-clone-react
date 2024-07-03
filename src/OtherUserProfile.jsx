@@ -80,8 +80,9 @@ function OtherUserProfile() {
 
 
     return (
-        <div className='relative'>
-            <div className="w-full min-h-screen bg-zinc-900 text-white py-2">
+        <div className='relative md:flex'>
+            <Footer />
+            <div className="w-full md:w-[80%] min-h-screen bg-zinc-900 text-white py-2 overflow-y-scroll">
                 <div className="nav flex justify-between items-center px-4">
                     <h3 className="text-lg">{user.username}</h3>
                     <div className="icons flex gap-5 items-center">
@@ -89,20 +90,20 @@ function OtherUserProfile() {
                     </div>
                 </div>
                 <div className="flex justify-between items-center pl-6 pr-[12vw] mt-8">
-                    <div className="w-[20vw] h-[20vw] rounded-full overflow-hidden border-2">
+                    <div className="w-[20vw] h-[20vw] md:w-[10vw] md:h-[10vw] rounded-full overflow-hidden border-2">
                         <img src={user.photo} alt="" className='object-cover object-center w-full h-full' />
                     </div>
                     <div className="stats flex gap-5 items-center justify-between">
                         <div className="flex flex-col items-center justify-center">
-                            <h3>{user.posts?.length}</h3>
+                            <h3>{user.posts?.length || 0}</h3>
                             <h4>Posts</h4>
                         </div>
                         <div className="flex flex-col items-center justify-center">
-                            <h3>{NoOfFollowers}</h3>
+                            <h3>{NoOfFollowers || 0}</h3>
                             <h4>Followers</h4>
                         </div>
                         <div className="flex flex-col items-center justify-center">
-                            <h3>{NoOfFolloing}</h3>
+                            <h3>{NoOfFolloing || 0}</h3>
                             <h4>Following</h4>
                         </div>
                     </div>
@@ -124,7 +125,6 @@ function OtherUserProfile() {
 
 
             </div>
-            <Footer />
         </div>
     )
 }

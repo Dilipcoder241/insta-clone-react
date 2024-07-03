@@ -150,26 +150,26 @@ function PostuploadEdit({ heading, type }) {
 
   return (
     <div className="w-full min-h-screen bg-zinc-900 text-white py-5">
-      <div className="flex justify-between items-center px-4">
-        <button className="text-sm text-blue-500 flex justify-center items-center" onClick={() => { router(`/profile/${username}`) }} ><RiArrowLeftSLine /> profile</button>
+      <div className="md:justify-center flex justify-between items-center px-4">
+        <button className="text-sm text-blue-500 flex justify-center items-center md:hidden" onClick={() => { router(`/profile/${username}`) }} ><RiArrowLeftSLine /> profile</button>
         <h2 className="leading-none text-sm">{heading}</h2>
-        <Link className="text-sm flex gap-1 justify-center items-center" to="/feed"><RiHome5Line /> home</Link>
+        <Link className="text-sm flex gap-1 justify-center items-center md:hidden" to="/feed"><RiHome5Line /> home</Link>
       </div>
 
       <div className="flex flex-col items-center gap-2 mt-5">
-        <div className="image w-[60vw] h-[60vw] rounded-lg overflow-hidden border-2 border-zinc-700 flex items-center justify-center">
+        <div className="image w-[60vw] h-[60vw] md:w-[22vw] md:h-[22vw] rounded-lg overflow-hidden border-2 border-zinc-700 flex items-center justify-center">
           <img src={src} className='object-cover object-center h-full w-full' />
         </div>
         <button id="selectpic" className="text-blue-500 capitalize cursor-pointer" onClick={type == "upload" ? onclickUploadPhoto : onclickEditPhoto}>select picture</button>
       </div>
 
       {type == "upload" ?
-        <form id="uploadform" onSubmit={handleSubmitUpdate} className="w-full px-6 py-3 mt-10" encType="multipart/form-data">
+        <form id="uploadform" onSubmit={handleSubmitUpdate} className="w-full md:w-[35%] mx-auto px-6 py-3 mt-10" encType="multipart/form-data">
           <input ref={postphoto} hidden type="file" name="image" onChange={(e) => { setpostfile(e.target.files[0]); Setsrc(URL.createObjectURL(e.target.files[0])) }} />
           <textarea className="px-2 py-1 w-full bg-zinc-900 border-2 h-20 border-zinc-800 resize-none rounded-md outline-none" placeholder="Write a caption..." onChange={(e) => { setcaption(e.target.value) }}></textarea>
           <input ref={submitBtn} className="w-full px-2 py-2 bg-blue-500 rounded-md" type="submit" value="Post" />
         </form> :
-        <form className="w-full px-6 py-3" onSubmit={handleSubmitEdit}>
+        <form className="w-full md:w-[35%] mx-auto px-6 py-3" onSubmit={handleSubmitEdit}>
           <input ref={userphoto} type="file" name="photo" hidden onChange={(e) => { setuserfile(e.target.files[0]); Setsrc(URL.createObjectURL(e.target.files[0])) }} />
           <input className="px-3 mt-2 py-2 border-2 border-zinc-800 rounded-md block w-full bg-zinc-900" type="text" placeholder="username" name="username" value={username} onChange={(e) => { setusername(e.target.value) }} />
           <input className="px-3 mt-2 py-2 border-2 border-zinc-800 rounded-md block w-full bg-zinc-900" type="text" placeholder="name" name="name" value={name} onChange={(e) => { setname(e.target.value) }} />

@@ -15,7 +15,8 @@ import OtherUserProfile from "./OtherUserProfile";
 function App() {
   
   return (
-    <> 
+    <>
+    <div className="bg-zinc-900">
      <BrowserRouter>
       <Routes>
         <Route path="/" element={<Signup />}/>
@@ -29,6 +30,7 @@ function App() {
       </Routes>
     </BrowserRouter>
       <ToastContainer theme="dark" position="bottom-center"/>
+      </div> 
     </>
   )
 }
