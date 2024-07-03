@@ -47,12 +47,8 @@ function OtherUserProfile() {
         setNoOfFollowers(jdata.user?.followers.length);
         setNoOfFolloing(jdata.user?.following.length);
 
-        if(jdata.user.followers?.indexOf(loginUser._id)== -1){
-            setFollowBtnText("Follow");
-        }
-        else{
-            setFollowBtnText("Unfollow");
-        }
+
+       
     }
 
 
@@ -78,6 +74,18 @@ function OtherUserProfile() {
     }, [])
 
 
+    useEffect(() => {
+        if(user && loginUser){
+            if(user.followers?.indexOf(loginUser._id)== -1){
+                setFollowBtnText("Follow");
+            }
+            else{
+                setFollowBtnText("Unfollow");
+            }
+        }
+    }, [user , loginUser])
+
+
 
     return (
         <div className='relative md:flex'>
@@ -85,7 +93,7 @@ function OtherUserProfile() {
             <div className="w-full md:w-[80%] min-h-screen bg-zinc-900 text-white py-2 overflow-y-scroll">
                 <div className="nav flex justify-between items-center px-4">
                     <h3 className="text-lg">{user.username}</h3>
-                    <div className="icons flex gap-5 items-center">
+                    <div className="icons flex gap-5 items-center md:hidden">
                         <RiMenu3Line />
                     </div>
                 </div>
