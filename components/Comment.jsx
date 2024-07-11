@@ -99,7 +99,7 @@ function Comment({ setShowComment, post, loginUser, user }) {
             {comments.length >= 1 ? comments.map((comment) => {
               return <div key={comment._id} className='flex gap-2'>
                 <div className='rounded-full w-[12vw] h-[12vw] overflow-hidden'>
-                  <img src={comment.user.photo} alt="user" className='w-full h-full object-cover' />
+                  <img src={comment.user.photo || "./user.png"} alt="user" className='w-full h-full object-cover' />
                 </div>
                 <div className='leading-tight'>
                   <h1>{comment.user.username}</h1>
@@ -111,7 +111,7 @@ function Comment({ setShowComment, post, loginUser, user }) {
 
           <div className='sendComment bg-red-20 p-2 flex gap-3 fixed bottom-0 left-0 w-full'>
             <div className='bg-green-600 rounded-full w-[11vw] h-[11vw] overflow-hidden flex-shrink-0'>
-              <img src={loginUser?.photo} alt="user" className='w-full h-full object-cover' />
+              <img src={loginUser?.photo || "./user.png"} alt="user" className='w-full h-full object-cover' />
             </div>
             <input type="text" placeholder='Add a comment' className='bg-transparent w-[75%] outline-none' value={commentText} onChange={(e) => { setcommentText(e.target.value) }} />
             <button ref={submitBtn} className='text-2xl text-blue-500 p-2' onClick={() => handleComment(post._id)}><IoMdSend /></button>
@@ -130,7 +130,7 @@ function Comment({ setShowComment, post, loginUser, user }) {
               <div className="title px-2 flex justify-between items-center w-full">
                 <div className='flex items-center gap-2 mb-2 w-full'>
                   <div className="w-[3vw] h-[3vw] rounded-full overflow-hidden">
-                    <img src={user.photo} alt="img" className="object-cover h-full w-full" />
+                    <img src={user.photo || "./user.png"} alt="img" className="object-cover h-full w-full" />
                   </div>
                   <h4 className="text-sm px-2">{user.username}</h4>
                   <h6 className="text-xs text-white">1d</h6>
@@ -146,7 +146,7 @@ function Comment({ setShowComment, post, loginUser, user }) {
                   {comments.length >= 1 ? comments.map((comment) => {
                     return <div key={comment._id} className='flex gap-2'>
                       <div className='rounded-full w-[3vw] h-[3vw] overflow-hidden'>
-                        <img src={comment.user.photo} alt="user" className='w-full h-full object-cover' />
+                        <img src={comment.user.photo || "./user.png"} alt="user" className='w-full h-full object-cover' />
                       </div>
                       <div className='leading-tight'>
                         <h1>{comment.user.username}</h1>
@@ -171,7 +171,7 @@ function Comment({ setShowComment, post, loginUser, user }) {
 
               <div className='sendComment bg-red-20 p-2 flex gap-3 w-full'>
                 <div className='bg-green-600 rounded-full w-[3vw] h-[3vw] overflow-hidden flex-shrink-0'>
-                  <img src={loginUser?.photo} alt="user" className='w-full h-full object-cover' />
+                  <img src={loginUser?.photo || "./user.png"} alt="user" className='w-full h-full object-cover' />
                 </div>
                 <input type="text" placeholder='Add a comment' className='bg-transparent w-full outline-none' value={commentText} onChange={(e) => { setcommentText(e.target.value) }} />
                 <button ref={submitBtn} className='text-2xl text-blue-500 p-2' onClick={() => handleComment(post._id)}><IoMdSend /></button>

@@ -7,7 +7,7 @@ function User({ user, loginUser }) {
 
         <Link to={user._id == loginUser._id ?`/profile/${loginUser.username}`:`/user/${user._id}`} className="text-white flex gap-5 items-center mt-5">
             <div className="image w-[12vw] h-[12vw] md:w-[3vw] md:h-[3vw] rounded-full overflow-hidden">
-                <img src={user.photo} alt="" className='object-cover h-full w-full' />
+                <img src={user.photo || "./user.png"} alt="" className='object-cover h-full w-full' />
             </div>
             <div className="text">
                 <h3>{user.username}</h3>

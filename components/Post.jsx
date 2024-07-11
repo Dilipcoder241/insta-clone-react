@@ -63,7 +63,7 @@ function Post({ id, postuser,post }) {
     <div className="post mt-5">
       <div className="title px-2 flex items-center gap-2">
         <div className="w-[8vw] h-[8vw] md:w-[2.5vw] md:h-[2.5vw] rounded-full overflow-hidden">
-          <img src={postuser.photo} alt="img" className="object-cover h-full w-full"/>
+          <img src={postuser.photo || "./user.png"} alt="img" className="object-cover h-full w-full"/>
         </div>
         <Link className="text-sm px-2" to={user._id == postuser._id ?`/profile/${user.username}`:`/user/${postuser._id}`}>{postuser.username}</Link>
         <h6 className="text-xs text-zinc-900">1d</h6>

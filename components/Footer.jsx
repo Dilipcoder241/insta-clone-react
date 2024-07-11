@@ -50,7 +50,7 @@ function Footer() {
     <>
 
       <div className='md:hidden'>
-        <div className="footer text-white flex justify-between items-center w-full fixed bottom-0 z-10 bg-zinc-900">
+        <div className="footer px-4 py-2 text-white flex justify-between items-center w-full fixed bottom-0 z-10 bg-zinc-900">
           <Link to="/feed"><RiHome5Line className="text-[1.4rem] ri-home-line" /></Link>
           <Link to="/search"><IoSearchSharp className="text-[1.4rem] ri-search-line" /></Link>
           <Link to={`${username ? "/upload" : "/login"}`}><FaRegSquarePlus className="text-[1.4rem] ri-add-box-line" /></Link>

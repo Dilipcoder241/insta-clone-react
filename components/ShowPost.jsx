@@ -62,7 +62,7 @@ function ShowPost({setShowPost , post , user , setShowComment , loginUser}) {
                 <div className="title px-2 flex justify-between">
                     <div className='flex items-center gap-2 mb-2'>
                         <div className="w-[8vw] h-[8vw] rounded-full overflow-hidden">
-                            <img src={user.photo} alt="img" className="object-cover h-full w-full" />
+                            <img src={user.photo || "./user.png"} alt="img" className="object-cover h-full w-full" />
                         </div>
                         <h4 className="text-sm px-2">{user.username}</h4>
                         <h6 className="text-xs text-white">1d</h6>

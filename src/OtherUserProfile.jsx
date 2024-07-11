@@ -99,7 +99,7 @@ function OtherUserProfile() {
                 </div>
                 <div className="flex justify-between items-center pl-6 pr-[12vw] mt-8">
                     <div className="w-[20vw] h-[20vw] md:w-[10vw] md:h-[10vw] rounded-full overflow-hidden border-2">
-                        <img src={user.photo} alt="" className='object-cover object-center w-full h-full' />
+                        <img src={user.photo || "./user.png"} alt="" className='object-cover object-center w-full h-full' />
                     </div>
                     <div className="stats flex gap-5 items-center justify-between">
                         <div className="flex flex-col items-center justify-center">

@@ -9,6 +9,8 @@ import Loader from "../components/Loader";
 
 function Feed() {
   const [posts, setPosts] = useState([]);
+  const [loginUser, setloginUser] = useState("");
+  
 
   const getAllPosts = async () => {
     const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getallposts`);
@@ -16,8 +18,28 @@ function Feed() {
     setPosts(data.result.reverse());
   }
 
+  const handleGetname = async ()=>{
+    if(!localStorage.getItem("Token")){
+      toast.error("Please Login");
+      return;
+    }
+
+    const rowdata =  await fetch(`${import.meta.env.VITE_BACKEND_URL}/getname`, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        "Token": localStorage.getItem("Token")
+      }
+      
+    })
+    const data = await rowdata.json();
+
+    setloginUser(data);
+  }
+
   useEffect(() => {
     getAllPosts();
+    handleGetname();
   }, [])
 
 
@@ -33,12 +55,10 @@ function Feed() {
             </div>
           </div>
           <div className="story px-3 flex gap-3 overflow-auto mt-5">
-            <Story />
-            <Story />
-            <Story />
-            <Story />
-            <Story />
-            <Story />
+            <Story url={loginUser.photo}/>
+            {loginUser.following?.map((user)=>{
+              return <Story key={user._id} url={user.photo}/>
+            })}
           </div>
 
 
