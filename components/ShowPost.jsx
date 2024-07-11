@@ -5,12 +5,10 @@ import { IoChatbubbleEllipsesOutline, IoClose } from 'react-icons/io5';
 import { TfiLocationArrow } from 'react-icons/tfi';
 import { toast } from 'react-toastify';
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useNavigate } from 'react-router-dom';
 
 
 function ShowPost({setShowPost , post , user , setShowComment , loginUser}) {
     const [Likes, setLikes] = useState(post.likes.length);
-    const navigate = useNavigate();
 
     const handleLike = async (id) => {
         try {
@@ -42,9 +40,9 @@ function ShowPost({setShowPost , post , user , setShowComment , loginUser}) {
 
             })
             const data = await rowData.json();
-            if (data.success == "true") {
+            if (data.success) {
                 toast.success(data.msg);
-                navigate('/feed');
+                setShowPost(false);
             }
             else {
                 toast.error(data.msg);

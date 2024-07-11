@@ -72,9 +72,11 @@ function Comment({ setShowComment, post, loginUser, user }) {
 
         })
         const data = await rowData.json();
-        if (data.success == "true") {
+        console.log(data);
+        if (data.success) {
             toast.success(data.msg);
-            navigate('/feed');
+            setShowComment(false);
+            
         }
         else {
             toast.error(data.msg);
