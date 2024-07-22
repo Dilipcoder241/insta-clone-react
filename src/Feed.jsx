@@ -5,17 +5,21 @@ import { TiHeartOutline } from "react-icons/ti";
 import { RiMessengerLine } from "react-icons/ri";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
+import LoadingBar from 'react-top-loading-bar';
+import axios from '../Utils/axios';
 
 
 function Feed() {
   const [posts, setPosts] = useState([]);
   const [loginUser, setloginUser] = useState("");
+  const [progress, setprogress] = useState(0)
   
 
   const getAllPosts = async () => {
-    const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getallposts`);
-    const data = await rowdata.json();
-    setPosts(data.result.reverse());
+    setprogress(10);
+    const rowdata = await axios.get(`/getallposts`);
+    setPosts(rowdata.data.result.reverse());
+    setprogress(100);
   }
 
   const handleGetname = async ()=>{
@@ -23,18 +27,8 @@ function Feed() {
       toast.error("Please Login");
       return;
     }
-
-    const rowdata =  await fetch(`${import.meta.env.VITE_BACKEND_URL}/getname`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        "Token": localStorage.getItem("Token")
-      }
-      
-    })
-    const data = await rowdata.json();
-
-    setloginUser(data);
+    const rowdata =  await axios.get(`/getname`);
+    setloginUser(rowdata.data);
   }
 
   useEffect(() => {
@@ -45,6 +39,7 @@ function Feed() {
 
   return (
     <div className='relative md:flex md:h-screen '>
+    <LoadingBar color='#f11946' progress={progress} onLoaderFinished={()=>{setprogress(0)}} />
       <Footer />
         <div className="bg-zinc-900 text-white py-5 min-h-screen md:w-[35%] overflow-y-scroll md:ml-20 md:px-4 md:py-1">
           <div className="px-4 flex items-center justify-between md:hidden">

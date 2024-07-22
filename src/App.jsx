@@ -10,12 +10,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OtherUserProfile from "./OtherUserProfile";
 
-
-
 function App() {
-  
   return (
     <>
+
     <div className="bg-zinc-900">
      <BrowserRouter>
       <Routes>
@@ -30,7 +28,7 @@ function App() {
       </Routes>
     </BrowserRouter>
       <ToastContainer theme="dark" position="bottom-center"/>
-      </div> 
+      </div>
     </>
   )
 }

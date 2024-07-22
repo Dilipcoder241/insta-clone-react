@@ -4,6 +4,8 @@ import Footer from '../components/Footer';
 import { RiMenu3Line } from "react-icons/ri";
 import { RiAddBoxLine } from "react-icons/ri";
 import { Link, useParams } from 'react-router-dom';
+import LoadingBar from 'react-top-loading-bar';
+import axios from "../Utils/axios";
 
 
 
@@ -13,21 +15,16 @@ function Profile() {
   const [userdata, setUserdata] = useState({});
   const [posts, setPosts] = useState([]);
   const [userphoto, setUserphoto] = useState("");
+  const [progress, setprogress] = useState(0);
 
   const dataget = async () => {
-    const data = await fetch(`${import.meta.env.VITE_BACKEND_URL}/profile/${username}`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        "Token": localStorage.getItem("Token")
-      }
-      
-    })
-    const jdata = await data.json();
-
-    setUserdata(jdata);
-    setPosts(jdata.posts.reverse());
-    setUserphoto(jdata.photo)
+    setprogress(10);
+    const {data} = await axios.get(`/profile/${username}`);
+  
+    setprogress(100);
+    setUserdata(data);
+    setPosts(data.posts.reverse());
+    setUserphoto(data.photo)
   }
 
 
@@ -40,6 +37,7 @@ function Profile() {
 
   return (
     <div className='relative md:flex'>
+    <LoadingBar color='#f11946' progress={progress} onLoaderFinished={()=>{setprogress(0)}} />
       <Footer />
       <div className="w-full md:w-[80%] h-screen bg-zinc-900 text-white py-2 overflow-y-scroll">
         <div className="nav flex justify-between items-center px-4">
@@ -51,7 +49,7 @@ function Profile() {
         </div>
         <div className="flex justify-between items-center pl-6 pr-[12vw] mt-8">
           <div className="w-[20vw] h-[20vw] md:w-[10vw] md:h-[10vw] rounded-full overflow-hidden border-2">
-            <img src={userphoto || "./user.png"} alt="" className='object-cover object-center w-full h-full' />
+            <img src={userphoto || "/user.png"} alt="" className='object-cover object-center w-full h-full' />
           </div>
           <div className="stats flex gap-5 items-center justify-between">
             <div className="flex flex-col items-center justify-center">

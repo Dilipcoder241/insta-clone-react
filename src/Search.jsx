@@ -4,6 +4,9 @@ import User from '../components/User';
 import { CgSearch } from "react-icons/cg";
 import Footer from '../components/Footer';
 import UserLoader from '../components/UserLoader';
+import LoadingBar from 'react-top-loading-bar';
+import axios from "../Utils/axios";
+
 
 
 
@@ -11,24 +14,20 @@ function Search() {
     const [user, setUser] = useState(""); 
     const [allUser, setAllUser] = useState([]);
     const [loginUser, setloginUser] = useState("");
+    const [progress, setprogress] = useState(0);
 
     const handelChange = (e) => {
         setUser(e.target.value);
     }
 
     const getuser =async(name)=>{
-        const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/search`, {
-            method: "POST",
-            body: JSON.stringify({
-                name:name
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-                "Token": localStorage.getItem("Token")
-            }
-        })
+        setprogress(10);
+        const body  = {
+            name
+        }
+        const {data} = await axios.post(`/search`, body);
 
-        let data = await rowdata.json();
+        setprogress(100);
         setAllUser(data.user);
         setloginUser(data.loginUser);
     }
@@ -40,6 +39,7 @@ function Search() {
 
     return (
         <div className='relative flex'>
+    <LoadingBar color='#f11946' progress={progress} onLoaderFinished={()=>{setprogress(0)}} />
             <Footer />
             <div className="w-full min-h-screen bg-zinc-900 px-4 py-5 md:w-[30%]">
                 <div className="border-2 border-zinc-800 flex items-center gap-1 px-2 py-1 rounded-md">

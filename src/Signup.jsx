@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { Link , useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
+import LoadingBar from 'react-top-loading-bar';
+import axios from "../Utils/axios";
 
 function Signup() {
   const [username, setUsername] = useState("");
@@ -9,6 +11,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const router = useNavigate();
   const submitBtn = useRef("");
+  const [progress, setprogress] = useState(0);
   
 
   const handleSubmit = async (e) =>{
@@ -18,33 +21,34 @@ function Signup() {
       return toast.error("Please Fill All The Fields");
     }
     submitBtn.current.disabled = true;
-    const rowdata =  await fetch(`${import.meta.env.VITE_BACKEND_URL}/register`, {
-      method: "POST",
-      body: JSON.stringify({
-        username:username,
-        email:email,
-        name:name,
-        password:password
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    })
-
-    let data = await rowdata.json();
-    if(data.success){
-      submitBtn.current.disabled = false;
-      router(`/login`);
-      toast.success(data.msg);
+    setprogress(10);
+    const body = {
+      username, email, name, password
     }
-    else{
-      submitBtn.current.disabled = false;
-      toast.error(data.msg);
+    try {
+      const {data} =  await axios.post(`/register`, body);
+
+      if(data.success){
+        submitBtn.current.disabled = false;
+        router(`/login`);
+        toast.success(data.msg);
+      }
+      else{
+        submitBtn.current.disabled = false;
+        toast.error(data.msg);
+      }
+    } catch (error) {
+      toast.error("some internal error");
+    }
+    finally{
+      setprogress(100);
     }
 
   }
+
   return (
     <div className="w-full md:w-[30%] md:mx-auto min-h-screen bg-zinc-900 text-white py-5 flex flex-col items-center justify-center">
+    <LoadingBar color='#f11946' progress={progress} onLoaderFinished={()=>{setprogress(0)}} />
     <div className="flex flex-col items-center gap-5 px-4">
       <img width='70' height='70' className="w-1/2" src="/logo.png" alt=""/>
       <form className="w-full" onSubmit={handleSubmit}>

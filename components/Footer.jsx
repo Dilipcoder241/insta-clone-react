@@ -7,6 +7,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import { TiHeartOutline } from "react-icons/ti";
 import { RiMessengerLine } from "react-icons/ri";
+import axios from '../Utils/axios';
 
 
 function Footer() {
@@ -19,15 +20,7 @@ function Footer() {
       return;
     }
 
-    const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getname`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        "Token": localStorage.getItem("Token")
-      }
-
-    })
-    const data = await rowdata.json();
+    const {data} = await axios.get(`/getname`);
 
     setusername(data.username);
   }

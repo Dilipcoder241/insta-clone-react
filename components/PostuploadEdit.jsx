@@ -3,6 +3,9 @@ import { Link, useNavigate ,useLocation } from 'react-router-dom';
 import React, { useEffect, useRef, useState } from 'react';
 import { RiArrowLeftSLine, RiHome5Line } from "react-icons/ri";
 import { toast } from 'react-toastify';
+import axios from "../Utils/axios";
+import LoadingBar from 'react-top-loading-bar';
+
 
 
 
@@ -19,21 +22,14 @@ function PostuploadEdit({ heading, type }) {
   const userphoto = useRef(null);
   const location = useLocation();
   const submitBtn = useRef("");
+  const [progress, setprogress] = useState(0);
 
   const handleGetname = async () => {
     if (!localStorage.getItem("Token")) {
       toast.error("Please Login");
       return;
     }
-    const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/getname`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        "Token": localStorage.getItem("Token")
-      }
-
-    })
-    const data = await rowdata.json();
+    const {data} = await axios.get(`/getname`);
     setusername(data.username);
     setbio(data?.bio);
     setname(data?.name);
@@ -73,32 +69,21 @@ function PostuploadEdit({ heading, type }) {
 
   const handleSubmitEdit = async (e) => {
     e.preventDefault();
+    setprogress(30);
 
     const result = await uploadToCloud(userfile);
 
-    if(!result){
-      toast.error("not able to Edit Profile");
-      return ;
-    }
 
     submitBtn.current.disabled = true;
-
-    const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/edit`, {
-      method: "POST",
-      body: JSON.stringify({
+    const body ={
         username: username,
         name: name,
         bio: bio,
         photo: result.url,
         publicId: result.public_id,
-      }),
-      headers: {
-        "Token": localStorage.getItem("Token"),
-        "Content-type": "application/json; charset=UTF-8"
-      }
-
-    })
-    const data = await rowdata.json();
+    }
+    const {data} = await axios.post(`/edit`, body);
+    
     if (data.success) {
       submitBtn.current.disabled = false;
       toast.success(data.msg);
@@ -107,6 +92,7 @@ function PostuploadEdit({ heading, type }) {
       submitBtn.current.disabled = false;
       toast.error(data.msg);
     }
+    setprogress(100);
     router(`/profile/${username}`)
 
   }
@@ -118,24 +104,19 @@ function PostuploadEdit({ heading, type }) {
       return toast.error("Please give Caption for your post");
     }
     const result = await uploadToCloud(postfile);
-    if(!result){
+    if(result.error){
       toast.error("not able to upload Post");
       return;
     }
     submitBtn.current.disabled = true;
-    const rowdata = await fetch(`${import.meta.env.VITE_BACKEND_URL}/upload`, {
-      method: "POST",
-      body: JSON.stringify({
-        caption,
-        image: result.url,
-        publicId: result.public_id
-      }),
-      headers: {
-        "Token": localStorage.getItem("Token"),
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    });
-    const data = await rowdata.json();
+    setprogress(30);
+
+    const body = {
+      caption,
+      image: result.url,
+      publicId: result.public_id
+    }
+    const {data} = await axios.post(`/upload`,body);
     if (data.success) {
       submitBtn.current.disabled = false;
       toast.success(data.msg);
@@ -144,12 +125,14 @@ function PostuploadEdit({ heading, type }) {
       submitBtn.current.disabled = false;
       toast.error(data.msg);
     }
+    setprogress(100);
     router(`/profile/${username}`);
 
   }
 
   return (
     <div className="w-full min-h-screen bg-zinc-900 text-white py-5">
+    <LoadingBar color='#f11946' progress={progress} onLoaderFinished={()=>{setprogress(0)}} />
       <div className="md:justify-center flex justify-between items-center px-4">
         <button className="text-sm text-blue-500 flex justify-center items-center md:hidden" onClick={() => { router(`/profile/${username}`) }} ><RiArrowLeftSLine /> profile</button>
         <h2 className="leading-none text-sm">{heading}</h2>

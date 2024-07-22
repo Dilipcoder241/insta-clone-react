@@ -7,27 +7,21 @@ import { FaRegHeart } from "react-icons/fa6";
 import { toast } from 'react-toastify';
 import Comment from './Comment';
 import { Link } from 'react-router-dom';
+import axios from "../Utils/axios"
 
 
 
 function Post({ id, postuser,post }) {
   const [Likes, setLikes] = useState(post.likes.length);
+  const [isLiked, setisLiked] = useState(null);
   const [showComment, setShowComment] = useState(false);
   const [user, setUser] = useState("");
 
   const handleLike = async (id) => {
     try {
-      const rowData = await fetch(`${import.meta.env.VITE_BACKEND_URL}/like/${id}`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          "Token": localStorage.getItem("Token")
-        }
-
-      })
-      const data = await rowData.json();
+      const {data} = await axios.post(`/like/${id}`);
       setLikes(data.post.likes.length);
-
+      setisLiked(data.post.likes.indexOf(user._id)>=0);
     } catch (error) {
       toast.error("not able to like the post");
     }
@@ -41,17 +35,9 @@ function Post({ id, postuser,post }) {
       return;
     }
 
-    const rowdata =  await fetch(`${import.meta.env.VITE_BACKEND_URL}/getname`, {
-      method: "GET",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        "Token": localStorage.getItem("Token")
-      }
-      
-    })
-    const data = await rowdata.json();
-
+    const {data} =  await axios.get(`/getname`);
     setUser(data);
+    setisLiked(post.likes.indexOf(data._id)>=0);
   }
 
   useEffect(() => {
@@ -63,7 +49,7 @@ function Post({ id, postuser,post }) {
     <div className="post mt-5">
       <div className="title px-2 flex items-center gap-2">
         <div className="w-[8vw] h-[8vw] md:w-[2.5vw] md:h-[2.5vw] rounded-full overflow-hidden">
-          <img src={postuser.photo || "./user.png"} alt="img" className="object-cover h-full w-full"/>
+          <img src={postuser.photo || "/user.png"} alt="img" className="object-cover h-full w-full"/>
         </div>
         <Link className="text-sm px-2" to={user._id == postuser._id ?`/profile/${user.username}`:`/user/${postuser._id}`}>{postuser.username}</Link>
         <h6 className="text-xs text-zinc-900">1d</h6>
@@ -73,7 +59,7 @@ function Post({ id, postuser,post }) {
       </div>
       <div className="options w-full px-2 flex justify-between items-center text-[1.4rem]">
         <div className="flex gap-3 mt-2">
-          {Likes >= 1 ? <FaHeart onClick={() => handleLike(id)} className='text-red-600' /> : <FaRegHeart onClick={() => handleLike(id)} />}
+          {isLiked ? <FaHeart onClick={() => handleLike(id)} className='text-red-600' /> : <FaRegHeart onClick={() => handleLike(id)} />}
           <IoChatbubbleEllipsesOutline onClick={()=>setShowComment(true)}/>
           <TfiLocationArrow className='rotate-90' />
 

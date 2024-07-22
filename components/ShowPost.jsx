@@ -5,6 +5,7 @@ import { IoChatbubbleEllipsesOutline, IoClose } from 'react-icons/io5';
 import { TfiLocationArrow } from 'react-icons/tfi';
 import { toast } from 'react-toastify';
 import { RiDeleteBin6Line } from "react-icons/ri";
+import axios from "../Utils/axios"
 
 
 function ShowPost({setShowPost , post , user , setShowComment , loginUser}) {
@@ -12,17 +13,8 @@ function ShowPost({setShowPost , post , user , setShowComment , loginUser}) {
 
     const handleLike = async (id) => {
         try {
-            const rowData = await fetch(`${import.meta.env.VITE_BACKEND_URL}/like/${id}`, {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                    "Token": localStorage.getItem("Token")
-                }
-
-            })
-            const data = await rowData.json();
+            const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/like/${id}`);
             setLikes(data.post.likes.length);
-
         } catch (error) {
             toast.error("not able to like the post");
         }
@@ -31,15 +23,7 @@ function ShowPost({setShowPost , post , user , setShowComment , loginUser}) {
 
     const handleDelete = async (id) => {
         try {
-            const rowData = await fetch(`${import.meta.env.VITE_BACKEND_URL}/delete/${id}`, {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                    "Token": localStorage.getItem("Token")
-                }
-
-            })
-            const data = await rowData.json();
+            const {data} = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/delete/${id}`);
             if (data.success) {
                 toast.success(data.msg);
                 setShowPost(false);
@@ -60,7 +44,7 @@ function ShowPost({setShowPost , post , user , setShowComment , loginUser}) {
                 <div className="title px-2 flex justify-between">
                     <div className='flex items-center gap-2 mb-2'>
                         <div className="w-[8vw] h-[8vw] rounded-full overflow-hidden">
-                            <img src={user.photo || "./user.png"} alt="img" className="object-cover h-full w-full" />
+                            <img src={user.photo || "/user.png"} alt="img" className="object-cover h-full w-full" />
                         </div>
                         <h4 className="text-sm px-2">{user.username}</h4>
                         <h6 className="text-xs text-white">1d</h6>
