@@ -6,11 +6,18 @@ import Profile from "./Profile";
 import Search from "./Search";
 import Edit from "./Edit";
 import Upload from "./Upload";
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OtherUserProfile from "./OtherUserProfile";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    if(!navigator.onLine){
+      toast.error("Please Connect To Internet");
+    }
+  }, [navigator.onLine])
+  
   return (
     <>
 

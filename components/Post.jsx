@@ -4,10 +4,10 @@ import { TfiLocationArrow } from "react-icons/tfi";
 import { FiBookmark } from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa6";
-import { toast } from 'react-toastify';
 import Comment from './Comment';
 import { Link } from 'react-router-dom';
 import axios from "../Utils/axios"
+import { toast } from 'react-toastify';
 
 
 
@@ -19,6 +19,10 @@ function Post({ id, postuser,post }) {
 
   const handleLike = async (id) => {
     try {
+      if(!localStorage.getItem("Token")){
+        toast.error("Please Login");
+        return;
+      }
       const {data} = await axios.post(`/like/${id}`);
       setLikes(data.post.likes.length);
       setisLiked(data.post.likes.indexOf(user._id)>=0);
@@ -61,7 +65,7 @@ function Post({ id, postuser,post }) {
         <div className="flex gap-3 mt-2">
           {isLiked ? <FaHeart onClick={() => handleLike(id)} className='text-red-600' /> : <FaRegHeart onClick={() => handleLike(id)} />}
           <IoChatbubbleEllipsesOutline onClick={()=>setShowComment(true)}/>
-          <TfiLocationArrow className='rotate-90' />
+          <TfiLocationArrow className='rotate-90'/>
 
         </div>
         <FiBookmark />

@@ -25,6 +25,7 @@ function Feed() {
   const handleGetname = async ()=>{
     if(!localStorage.getItem("Token")){
       toast.error("Please Login");
+      
       return;
     }
     const rowdata =  await axios.get(`/getname`);

@@ -17,6 +17,7 @@ function Footer() {
   const handleGetname = async () => {
     if (!localStorage.getItem("Token")) {
       toast.error("Please Login");
+      router("/login");
       return;
     }
 
