@@ -6,7 +6,6 @@ import axios from "../Utils/axios"
 
 
 function Login() {
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useNavigate();
@@ -30,6 +29,7 @@ function Login() {
   
       if (data.success) {
         submitBtn.current.disabled = false;
+        localStorage.removeItem("Token");
         localStorage.setItem("Token", data.token);
         router(`/profile/${username}`);
         toast.success(data.msg);

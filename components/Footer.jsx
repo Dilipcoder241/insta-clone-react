@@ -7,36 +7,22 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import { TiHeartOutline } from "react-icons/ti";
 import { RiMessengerLine } from "react-icons/ri";
-import axios from '../Utils/axios';
+import { useMyContext } from '../mycontext/context';
 
 
 function Footer() {
-  const [username, setusername] = useState("");
+  const {loginUser} = useMyContext();
   const router = useNavigate();
 
-  const handleGetname = async () => {
-    if (!localStorage.getItem("Token")) {
-      toast.error("Please Login");
-      router("/login");
-      return;
-    }
-
-    const {data} = await axios.get(`/getname`);
-
-    setusername(data.username);
-  }
 
   const clickProfileBtn = () => {
-    if (!username) {
+    if (!loginUser) {
       router("/login");
       return;
     }
-    router(`/profile/${username}`)
+    router(`/profile/${loginUser.username}`)
   }
 
-  useEffect(() => {
-    handleGetname();
-  }, [])
 
 
 
@@ -47,7 +33,7 @@ function Footer() {
         <div className="footer px-4 py-2 text-white flex justify-between items-center w-full fixed bottom-0 z-10 bg-zinc-900">
           <Link to="/feed"><RiHome5Line className="text-[1.4rem] ri-home-line" /></Link>
           <Link to="/search"><IoSearchSharp className="text-[1.4rem] ri-search-line" /></Link>
-          <Link to={`${username ? "/upload" : "/login"}`}><FaRegSquarePlus className="text-[1.4rem] ri-add-box-line" /></Link>
+          <Link to={`${loginUser.username ? "/upload" : "/login"}`}><FaRegSquarePlus className="text-[1.4rem] ri-add-box-line" /></Link>
           <button onClick={clickProfileBtn}>
             <FaRegUserCircle className='text-xl' />
           </button>
@@ -64,7 +50,7 @@ function Footer() {
             <Link to="/search" className='w-full p-4 hover:bg-zinc-800 flex gap-2 rounded-md duration-300 font-bold'><IoSearchSharp className="text-[1.4rem] ri-search-line" /> Search</Link>
           </li>
           <li>
-            <Link to={`${username ? "/upload" : "/login"}`} className='w-full p-4 hover:bg-zinc-800 flex gap-2 rounded-md duration-300 font-bold'><FaRegSquarePlus className="text-[1.4rem] ri-add-box-line" /> Upload Post</Link>
+            <Link to={`${loginUser.username ? "/upload" : "/login"}`} className='w-full p-4 hover:bg-zinc-800 flex gap-2 rounded-md duration-300 font-bold'><FaRegSquarePlus className="text-[1.4rem] ri-add-box-line" /> Upload Post</Link>
           </li>
           <li>
             <button onClick={clickProfileBtn} className='w-full p-4 hover:bg-zinc-800 flex items-center gap-2 rounded-md duration-300 font-bold'>

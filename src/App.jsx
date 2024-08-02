@@ -10,6 +10,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OtherUserProfile from "./OtherUserProfile";
 import { useEffect } from "react";
+import { MyProvider } from "../mycontext/context";
 
 function App() {
   useEffect(() => {
@@ -19,8 +20,7 @@ function App() {
   }, [navigator.onLine])
   
   return (
-    <>
-
+    <MyProvider>
     <div className="bg-zinc-900">
      <BrowserRouter>
       <Routes>
@@ -36,7 +36,7 @@ function App() {
     </BrowserRouter>
       <ToastContainer theme="dark" position="bottom-center"/>
       </div>
-    </>
+    </MyProvider>
   )
 }
 

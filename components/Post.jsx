@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { TfiLocationArrow } from "react-icons/tfi";
 import { FiBookmark } from "react-icons/fi";
@@ -8,6 +8,7 @@ import Comment from './Comment';
 import { Link } from 'react-router-dom';
 import axios from "../Utils/axios"
 import { toast } from 'react-toastify';
+import { useMyContext } from '../mycontext/context';
 
 
 
@@ -15,39 +16,25 @@ function Post({ id, postuser,post }) {
   const [Likes, setLikes] = useState(post.likes.length);
   const [isLiked, setisLiked] = useState(null);
   const [showComment, setShowComment] = useState(false);
-  const [user, setUser] = useState("");
+  const {loginUser} = useMyContext();
+
 
   const handleLike = async (id) => {
     try {
-      if(!localStorage.getItem("Token")){
-        toast.error("Please Login");
-        return;
-      }
       const {data} = await axios.post(`/like/${id}`);
       setLikes(data.post.likes.length);
-      setisLiked(data.post.likes.indexOf(user._id)>=0);
+      setisLiked(data.post.likes.indexOf(loginUser._id)>=0);
     } catch (error) {
       toast.error("not able to like the post");
     }
 
   }
 
-
-  const handleGetname = async ()=>{
-    if(!localStorage.getItem("Token")){
-      toast.error("Please Login");
-      return;
-    }
-
-    const {data} =  await axios.get(`/getname`);
-    setUser(data);
-    setisLiked(post.likes.indexOf(data._id)>=0);
-  }
-
   useEffect(() => {
-    handleGetname();
+    setisLiked(post.likes.indexOf(loginUser._id)>=0);
   }, [])
   
+
 
   return (
     <div className="post mt-5">
@@ -55,7 +42,7 @@ function Post({ id, postuser,post }) {
         <div className="w-[8vw] h-[8vw] md:w-[2.5vw] md:h-[2.5vw] rounded-full overflow-hidden">
           <img src={postuser.photo || "/user.png"} alt="img" className="object-cover h-full w-full"/>
         </div>
-        <Link className="text-sm px-2" to={user._id == postuser._id ?`/profile/${user.username}`:`/user/${postuser._id}`}>{postuser.username}</Link>
+        <Link className="text-sm px-2" to={loginUser._id == postuser._id ?`/profile/${loginUser.username}`:`/user/${postuser._id}`}>{postuser.username}</Link>
         <h6 className="text-xs text-zinc-900">1d</h6>
       </div>
       <div className="w-full h-[50vh] md:h-[60vh] mt-4 overflow-hidden">
@@ -63,7 +50,7 @@ function Post({ id, postuser,post }) {
       </div>
       <div className="options w-full px-2 flex justify-between items-center text-[1.4rem]">
         <div className="flex gap-3 mt-2">
-          {isLiked ? <FaHeart onClick={() => handleLike(id)} className='text-red-600' /> : <FaRegHeart onClick={() => handleLike(id)} />}
+          {isLiked ? <FaHeart  onClick={() => handleLike(id)} className='text-red-600' /> : <FaRegHeart onClick={() => handleLike(id)} />}
           <IoChatbubbleEllipsesOutline onClick={()=>setShowComment(true)}/>
           <TfiLocationArrow className='rotate-90'/>
 
@@ -80,7 +67,7 @@ function Post({ id, postuser,post }) {
 
        {/* comment section */}
        <div>
-        {showComment && <Comment setShowComment={setShowComment} post={post} loginUser={user} user={user}/>}
+        {showComment && <Comment setShowComment={setShowComment} post={post} loginUser={loginUser} user={postuser}/>}
         </div> 
     </div>
   )

@@ -7,11 +7,12 @@ import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 import LoadingBar from 'react-top-loading-bar';
 import axios from '../Utils/axios';
+import { useMyContext } from '../mycontext/context';
 
 
 function Feed() {
-  const [posts, setPosts] = useState([]);
-  const [loginUser, setloginUser] = useState("");
+  const {posts, setPosts} = useMyContext();
+  const {loginUser, setloginUser} = useMyContext();
   const [progress, setprogress] = useState(0)
   
 
@@ -23,18 +24,17 @@ function Feed() {
   }
 
   const handleGetname = async ()=>{
-    if(!localStorage.getItem("Token")){
-      toast.error("Please Login");
-      
-      return;
-    }
-    const rowdata =  await axios.get(`/getname`);
-    setloginUser(rowdata.data);
+    const {data} =  await axios.get(`/getname`);
+    setloginUser(data);
   }
 
   useEffect(() => {
+    if(!localStorage.getItem("Token")){
+      toast.error("Please Login");
+      return;
+    }
+    handleGetname();    
     getAllPosts();
-    handleGetname();
   }, [])
 
 

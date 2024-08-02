@@ -47,26 +47,26 @@ function Profile() {
             <RiMenu3Line />
           </div>
         </div>
-        <div className="flex justify-between items-center pl-6 pr-[12vw] mt-8">
+        <div className="flex justify-between px-[4vw] items-center md:pl-6 md:pr-[12vw] mt-8">
           <div className="w-[20vw] h-[20vw] md:w-[10vw] md:h-[10vw] rounded-full overflow-hidden border-2">
             <img src={userphoto || "/user.png"} alt="" className='object-cover object-center w-full h-full' />
           </div>
-          <div className="stats flex gap-5 items-center justify-between">
+          <div className="stats flex gap-2 md:gap-5 items-center justify-between">
             <div className="flex flex-col items-center justify-center">
               <h3>{posts.length}</h3>
-              <h4>Posts</h4>
+              <h4 className='text-sm md:text-base'>Posts</h4>
             </div>
             <div className="flex flex-col items-center justify-center">
               <h3>{userdata.followers?.length || 0}</h3>
-              <h4>Followers</h4>
+              <h4 className='text-sm md:text-base'>Followers</h4>
             </div>
             <div className="flex flex-col items-center justify-center">
               <h3>{userdata.following?.length || 0}</h3>
-              <h4>Following</h4>
+              <h4 className='text-sm md:text-base'>Following</h4>
             </div>
           </div>
         </div>
-        <div className="dets px-6 mt-5">
+        <div className="dets px-6 mt-2">
           <h3 className="text-md mb-1">{userdata.name}</h3>
           <p className="text-xs tracking-tight opacity-50">{userdata.bio}.</p>
         </div>

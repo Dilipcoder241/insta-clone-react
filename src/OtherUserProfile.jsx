@@ -5,27 +5,18 @@ import Footer from '../components/Footer';
 import ProfilePost from '../components/ProfilePost';
 import LoadingBar from 'react-top-loading-bar';
 import axios from "../Utils/axios"
+import { useMyContext } from '../mycontext/context';
 
 function OtherUserProfile() {
     const { id } = useParams();
     const [user, setUser] = useState("");
-    const [loginUser, setloginUser] = useState("");
+    const {loginUser} = useMyContext();
     const navigate = useNavigate();
     const [followBtnText, setFollowBtnText] = useState("Follow");
     const [NoOfFollowers, setNoOfFollowers] = useState(0);
     const [NoOfFolloing, setNoOfFolloing] = useState(0);
     const [progress, setprogress] = useState(0);
 
-
-    const handleGetname = async ()=>{
-        if(!localStorage.getItem("Token")){
-          toast.error("Please Login");
-          return;
-        }
-    
-        const {data} =  await axios.get(`/getname`);
-        setloginUser(data);
-      }
 
     const dataget = async () => {
         setprogress(10);
@@ -39,14 +30,12 @@ function OtherUserProfile() {
 
     const handleFollow = async (id) =>{
         const {data} = await axios.post(`/follow/${id}`);
-        console.log(data);
         setFollowBtnText((prev)=>prev=="Follow"?"Unfollow":"Follow");
         setNoOfFollowers((prev)=>followBtnText=="Follow"?prev+1:prev-1);
     }
 
 
     useEffect(() => {
-        handleGetname();
         dataget();
     }, [])
 

@@ -38,7 +38,7 @@ function Comment({ setShowComment, post, loginUser, user  }) {
   }
 
   const handleLike = async (id) => {
-    try {
+    try { 
       const {data} = await axios.post(`/like/${id}`);
       setLikes(data.post.likes.length);
       setisLiked(data.post.likes.indexOf(loginUser._id)>=0);
@@ -68,7 +68,7 @@ function Comment({ setShowComment, post, loginUser, user  }) {
 
   return (
     <>
-      <div className='w-screen h-screen fixed bottom-0 left-0 bg-black bg-opacity-70 z-20 md:hidden'>
+      <div className='mobile w-screen h-screen fixed bottom-0 left-0 bg-black bg-opacity-70 z-20 md:hidden'>
         <div className='h-[70vh] w-full bg-zinc-900 fixed bottom-0 left-0 text-white border-t-2 rounded-tl-2xl rounded-tr-2xl z-30'>
           <div className='h-1 w-[12%] bg-white rounded-xl mt-2 mx-auto'></div>
           <div className='flex justify-center items-center mt-4 text-slate-400 text-sm'>
@@ -100,9 +100,7 @@ function Comment({ setShowComment, post, loginUser, user  }) {
         </div>
       </div>
 
-
-
-      <div className='absolute w-screen h-screen top-0 left-0 justify-center items-center flex-col hidden md:flex'>
+      <div className='laptop absolute w-screen h-screen top-0 left-0 justify-center items-center flex-col hidden md:flex'>
         <div className='py-1 rounded-lg overflow-hidden bg-zinc-800 m-2 w-[80%]'>
           <div className='w-full h-[70vh] flex'>
             <img src={post.image} alt="" className="object-cover w-2/5 h-full" />
@@ -111,7 +109,7 @@ function Comment({ setShowComment, post, loginUser, user  }) {
               <div className="title px-2 flex justify-between items-center w-full">
                 <div className='flex items-center gap-2 mb-2 w-full'>
                   <div className="w-[3vw] h-[3vw] rounded-full overflow-hidden">
-                    <img src={loginUser.photo || "/user.png"} alt="img" className="object-cover h-full w-full" />
+                    <img src={user.photo || "/user.png"} alt="img" className="object-cover h-full w-full" />
                   </div>
                   <h4 className="text-sm px-2">{user.username}</h4>
                   <h6 className="text-xs text-white">1d</h6>

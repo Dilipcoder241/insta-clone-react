@@ -5,42 +5,28 @@ import { RiArrowLeftSLine, RiHome5Line } from "react-icons/ri";
 import { toast } from 'react-toastify';
 import axios from "../Utils/axios";
 import LoadingBar from 'react-top-loading-bar';
+import { useMyContext } from '../mycontext/context';
 
 
 
 
 function PostuploadEdit({ heading, type }) {
-  const [username, setusername] = useState("");
-  const [name, setname] = useState("");
-  const [bio, setbio] = useState("");
+  const location = useLocation();
+  const {loginUser}= useMyContext();
+  const [username, setusername] = useState(loginUser.username || "");
+  const [name, setname] = useState(loginUser.name || "");
+  const [bio, setbio] = useState(loginUser.bio || "");
   const [caption, setcaption] = useState("");
   const [postfile, setpostfile] = useState();
   const [userfile, setuserfile] = useState();
-  const [src, Setsrc] = useState("./imageIcon.jpg");
+  const [src, Setsrc] = useState(location.pathname=="/edit"? loginUser?.photo :"./imageIcon.jpg");
   const router = useNavigate();
   const postphoto = useRef(null);
   const userphoto = useRef(null);
-  const location = useLocation();
   const submitBtn = useRef("");
   const [progress, setprogress] = useState(0);
 
-  const handleGetname = async () => {
-    if (!localStorage.getItem("Token")) {
-      toast.error("Please Login");
-      return;
-    }
-    const {data} = await axios.get(`/getname`);
-    setusername(data.username);
-    setbio(data?.bio);
-    setname(data?.name);
-    if(location.pathname == "/edit"){
-      Setsrc(data?.photo);
-    }
-  }
 
-  useEffect(() => {
-    handleGetname();
-  }, [])
 
   const onclickUploadPhoto = () => {
     postphoto.current.click();
@@ -73,14 +59,13 @@ function PostuploadEdit({ heading, type }) {
 
     const result = await uploadToCloud(userfile);
 
-
     submitBtn.current.disabled = true;
     const body ={
         username: username,
         name: name,
         bio: bio,
-        photo: result.url,
-        publicId: result.public_id,
+        photo: result?.url,
+        publicId: result?.public_id,
     }
     const {data} = await axios.post(`/edit`, body);
     
@@ -113,8 +98,8 @@ function PostuploadEdit({ heading, type }) {
 
     const body = {
       caption,
-      image: result.url,
-      publicId: result.public_id
+      image: result?.url,
+      publicId: result?.public_id
     }
     const {data} = await axios.post(`/upload`,body);
     if (data.success) {
@@ -134,9 +119,9 @@ function PostuploadEdit({ heading, type }) {
     <div className="w-full min-h-screen bg-zinc-900 text-white py-5">
     <LoadingBar color='#f11946' progress={progress} onLoaderFinished={()=>{setprogress(0)}} />
       <div className="md:justify-center flex justify-between items-center px-4">
-        <button className="text-sm text-blue-500 flex justify-center items-center md:hidden" onClick={() => { router(`/profile/${username}`) }} ><RiArrowLeftSLine /> profile</button>
+        <button className="text-sm text-blue-500 flex justify-center items-center " onClick={() => { router(`/profile/${username}`) }} ><RiArrowLeftSLine />profile</button>
         <h2 className="leading-none text-sm">{heading}</h2>
-        <Link className="text-sm flex gap-1 justify-center items-center md:hidden" to="/feed"><RiHome5Line /> home</Link>
+        <Link className="text-sm flex gap-1 justify-center items-center " to="/feed"><RiHome5Line /> home</Link>
       </div>
 
       <div className="flex flex-col items-center gap-2 mt-5">
