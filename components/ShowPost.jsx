@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa6';
 import { FiBookmark } from 'react-icons/fi';
 import { IoChatbubbleEllipsesOutline, IoClose } from 'react-icons/io5';

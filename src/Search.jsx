@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react'
 import User from '../components/User';
 import { CgSearch } from "react-icons/cg";
